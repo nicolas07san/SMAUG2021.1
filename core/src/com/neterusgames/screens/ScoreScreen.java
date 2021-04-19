@@ -1,42 +1,41 @@
 package com.neterusgames.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.neterusgames.game.Main;
 
-public class ScoreScreen implements Screen {
+public class ScoreScreen extends BaseScreen{
 
-    private static final int BACKB_X = 100;
-    private static final int BACKB_Y = 200;
+    private Texture backButtonInactive;
+    private Texture backButtonActive;
 
-    Main main;
-    Texture backButton;
+    private int backButtonX;
+    private int backButtonY;
 
-    public void show() {
+    ScoreScreen(Main main) {
+        super(main);
 
+        backButtonInactive = new Texture("back-inactive.png");
+        backButtonActive = new Texture("back-active.png");
+        backButtonX = 20;
+        backButtonY = 50;
     }
 
     public void render(float delta) {
 
-    }
+        Gdx.gl.glClearColor(0.3f,0.3f,0.3f,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-    public void resize(int width, int height) {
+        main.batch.begin();
 
-    }
+        // backButton logic
+        drawButton(backButtonInactive, backButtonActive, backButtonX, backButtonY, new MainMenuScreen(main),
+                main, false);
 
-    public void pause() {
-
-    }
-
-    public void resume() {
-
-    }
-
-    public void hide() {
+        main.batch.end();
 
     }
 
-    public void dispose() {
-
-    }
 }
