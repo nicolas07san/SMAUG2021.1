@@ -42,32 +42,32 @@ public class MainMenuScreen extends BaseScreen {
         super(main);
 
         //playButton Images
-        playButtonInactive = new Texture("play-inactive.png");
-        playButtonActive = new Texture("play-active.png");
+        playButtonInactive = new Texture("buttons/play-inactive.png");
+        playButtonActive = new Texture("buttons/play-active.png");
         playButtonX = Main.WIDTH/2 - (playButtonInactive.getWidth()*SCALE)/2;
         playButtonY = 350;
 
         //scoreButton Images
-        scoreButtonInactive = new Texture("highscore-inactive.png");
-        scoreButtonActive = new Texture("highscore-active.png");
+        scoreButtonInactive = new Texture("buttons/highscore-inactive.png");
+        scoreButtonActive = new Texture("buttons/highscore-active.png");
         scoreButtonX = Main.WIDTH/2 - (scoreButtonInactive.getWidth()*SCALE)/2;
         scoreButtonY = 250;
 
         //h2PlayButton Images
-        h2PlayButtonInactive = new Texture("h2p-inactive.png");
-        h2PlayButtonActive = new Texture("h2p-active.png");
+        h2PlayButtonInactive = new Texture("buttons/h2p-inactive.png");
+        h2PlayButtonActive = new Texture("buttons/h2p-active.png");
         h2PlayButtonX = Main.WIDTH/2 - (h2PlayButtonInactive.getWidth()*SCALE)/2;
         h2PlayButtonY = 150;
 
         //creditsButton Images
-        creditsButtonInactive = new Texture("credits-inactive.png");
-        creditsButtonActive = new Texture("credits-active.png");
+        creditsButtonInactive = new Texture("buttons/credits-inactive.png");
+        creditsButtonActive = new Texture("buttons/credits-active.png");
         creditsButtonX = Main.WIDTH/2 - (creditsButtonInactive.getWidth()*SCALE)/2;
         creditsButtonY = 50;
 
         // exitButton Images
-        exitButtonInactive = new Texture("exit-inactive.png");
-        exitButtonActive = new Texture("exit-active.png");
+        exitButtonInactive = new Texture("buttons/exit-inactive.png");
+        exitButtonActive = new Texture("buttons/exit-active.png");
         exitButtonX = Main.WIDTH - (exitButtonInactive.getWidth()*SCALE) - 20;
         exitButtonY = 50;
 

@@ -17,8 +17,8 @@ public class ScoreScreen extends BaseScreen{
     ScoreScreen(Main main) {
         super(main);
 
-        backButtonInactive = new Texture("back-inactive.png");
-        backButtonActive = new Texture("back-active.png");
+        backButtonInactive = new Texture("buttons/back-inactive.png");
+        backButtonActive = new Texture("buttons/back-active.png");
         backButtonX = 20;
         backButtonY = 50;
     }
