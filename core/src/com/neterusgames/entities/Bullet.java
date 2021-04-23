@@ -4,48 +4,32 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Bullet {
+public class Bullet extends BaseEntity {
 
-    private float speed;
-
-    private int width;
-    private int height;
-
-    private float x;
-    private float y;
-
-    private int scale = 3;
-
-    private static Texture texture;
-
-    private boolean remove = false;
+    private boolean outOfScreen = false;
 
     public Bullet(float x, float y, String path){
-        this.x = x;
-        this.y = y;
+        super(x, y);
 
-        if(texture ==  null){
-            texture = new Texture(path);
+        if(getTexture() ==  null){
+            setTexture(new Texture(path));
         }
 
-        this.width = texture.getWidth()*scale;
-        this.height = texture.getHeight()*scale;
-
-        speed = 500;
+        setSpeed(500);
     }
 
     public void update(float deltaTime){
-        y += speed*deltaTime;
-        if(y > Gdx.graphics.getHeight()){
-            remove = true;
+        setY(getY() + getSpeed()*deltaTime);
+        if(getY() > Gdx.graphics.getHeight()){
+            outOfScreen = true;
         }
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(texture, x, y, width, height);
+        super.render(batch);
     }
 
-    public boolean isRemove() {
-        return remove;
+    public boolean isOutOfScreen() {
+        return outOfScreen;
     }
 }

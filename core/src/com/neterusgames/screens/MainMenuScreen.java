@@ -45,19 +45,19 @@ public class MainMenuScreen extends BaseScreen {
         playButtonInactive = new Texture("buttons/play-inactive.png");
         playButtonActive = new Texture("buttons/play-active.png");
         playButtonX = Main.WIDTH/2 - (playButtonInactive.getWidth()*SCALE)/2;
-        playButtonY = 350;
+        playButtonY = 200;
 
         //scoreButton Images
         scoreButtonInactive = new Texture("buttons/highscore-inactive.png");
         scoreButtonActive = new Texture("buttons/highscore-active.png");
         scoreButtonX = Main.WIDTH/2 - (scoreButtonInactive.getWidth()*SCALE)/2;
-        scoreButtonY = 250;
+        scoreButtonY = 150;
 
         //h2PlayButton Images
         h2PlayButtonInactive = new Texture("buttons/h2p-inactive.png");
         h2PlayButtonActive = new Texture("buttons/h2p-active.png");
         h2PlayButtonX = Main.WIDTH/2 - (h2PlayButtonInactive.getWidth()*SCALE)/2;
-        h2PlayButtonY = 150;
+        h2PlayButtonY = 100;
 
         //creditsButton Images
         creditsButtonInactive = new Texture("buttons/credits-inactive.png");

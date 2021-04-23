@@ -7,7 +7,7 @@ import com.neterusgames.game.Main;
 
 public abstract class BaseScreen implements Screen {
 
-    final int SCALE = 3;
+    final int SCALE = Main.SCALE;
 
     Main main;
     BaseScreen(Main main){
@@ -52,7 +52,7 @@ public abstract class BaseScreen implements Screen {
             main.batch.draw(textureActive, textureX, textureY, textureActive.getWidth()*SCALE,
                     textureActive.getHeight()*SCALE);
 
-            if(Gdx.input.isTouched()){
+            if(Gdx.input.justTouched()){
                 if(exit){
                     Gdx.app.exit();
                 }

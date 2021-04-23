@@ -4,19 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.neterusgames.game.Main;
 
 import java.util.ArrayList;
 
-public class Player {
-
-    private float x;
-    private float y;
-
-    private int width;
-    private int height;
+public class Player extends BaseEntity{
 
     private float health;
-    private float speed;
 
     private float timer;
     private float shootTimer;
@@ -24,22 +18,15 @@ public class Player {
     private ArrayList<Bullet> bullets;
     private ArrayList<Bullet> bulletsToRemove;
 
-    private Texture texture;
-
     public Player(float x, float y){
-        this.x = x;
-        this.y = y;
-
-        texture = new Texture("entities/player.png");
+        super(x, y);
+        setTexture(new Texture("entities/player.png"));
+        setSpeed(250);
 
         bullets = new ArrayList<>();
         bulletsToRemove = new ArrayList<>();
 
-        width = texture.getWidth();
-        height = texture.getHeight();
-
         health = 1;
-        speed = 250;
         shootTimer = 0.3f;
 
     }
@@ -49,8 +36,10 @@ public class Player {
         if(timer >= shootTimer){
             timer = 0;
             int offset = 4;
-            bullets.add(new Bullet(x - offset,y + height/2,"entities/player-bullet.png"));
-            bullets.add(new Bullet(x + width - offset ,y + height/2,"entities/player-bullet.png"));
+            bullets.add(new Bullet(getX() - offset,getY() + getHeight()/2,
+                    "entities/player-bullet.png"));
+            bullets.add(new Bullet(getX() + getWidth() - offset ,getY() + getHeight()/2,
+                    "entities/player-bullet.png"));
         }
     }
 
@@ -59,7 +48,7 @@ public class Player {
         //check bullets that are off the screen
         for(Bullet bullet : bullets){
             bullet.update(deltaTime);
-            if(bullet.isRemove()){
+            if(bullet.isOutOfScreen()){
                 bulletsToRemove.add(bullet);
             }
         }
@@ -69,29 +58,29 @@ public class Player {
             shoot(deltaTime);
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            y += speed*deltaTime;
+        if(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)){
+            setY(getY() + (getSpeed()*deltaTime));
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            y -= speed*deltaTime;
-            if(y < 0){
-                y = 0;
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)){
+            setY(getY() - (getSpeed()*deltaTime));
+            if(getY() < 0){
+                setY(0);
             }
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            x += speed*deltaTime;
-            if(x > Gdx.graphics.getWidth() - width){
-                x = Gdx.graphics.getWidth() - width;
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)){
+            setX(getX()+getSpeed()*deltaTime);
+            if(getX() > Gdx.graphics.getWidth() - getWidth()){
+                setX(Gdx.graphics.getWidth() - getWidth());
             }
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            x -= speed*deltaTime;
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)){
+            setX(getX() - getSpeed() * deltaTime);
 
-            if(x < 0){
-                x = 0;
+            if(getX() < 0){
+                setX(0);
             }
         }
 
@@ -103,6 +92,6 @@ public class Player {
         for(Bullet bullet : bullets){
             bullet.render(batch);
         }
-        batch.draw(texture, x, y, width, height);
+        super.render(batch);
     }
 }
