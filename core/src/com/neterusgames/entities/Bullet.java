@@ -20,12 +20,12 @@ public class Bullet {
 
     private boolean remove = false;
 
-    public Bullet(float x, float y){
+    public Bullet(float x, float y, String path){
         this.x = x;
         this.y = y;
 
         if(texture ==  null){
-            texture = new Texture("bullet.png");
+            texture = new Texture(path);
         }
 
         this.width = texture.getWidth()*scale;
@@ -43,5 +43,9 @@ public class Bullet {
 
     public void render(SpriteBatch batch){
         batch.draw(texture, x, y, width, height);
+    }
+
+    public boolean isRemove() {
+        return remove;
     }
 }
