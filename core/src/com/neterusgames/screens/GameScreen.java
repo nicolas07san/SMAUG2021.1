@@ -22,7 +22,6 @@ public class GameScreen extends BaseScreen{
     private ArrayList<Rock> rocks = new ArrayList<>();
     private ArrayList<Rock> rocksToRemove = new ArrayList<>();
 
-    private float elapsedTime;
 
     public GameScreen(Main main){
         super(main);
@@ -50,15 +49,13 @@ public class GameScreen extends BaseScreen{
         }
         rocks.removeAll(rocksToRemove);
 
-        elapsedTime += delta;
-
         //Render entities
         Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         main.batch.begin();
 
-        player.render(main.batch, elapsedTime);
+        player.render(main.batch);
 
         for(Rock rock : rocks){
             rock.render(main.batch);

@@ -17,8 +17,8 @@ public class Player extends BaseEntity{
     private float timer;
     private float shootTimer;
 
-    private int frames = 14;
     private float frameTime = 0.25f;
+    private float elapsedTime;
 
     private Animation animation;
 
@@ -28,12 +28,15 @@ public class Player extends BaseEntity{
     public Player(float x, float y){
         super(x, y);
 
+        if(getTexture() == null){
+            setTexture(new Texture("entities/player.png"));
+        }
+
         setWidth(32);
         setHeight(32);
-        setTexture(new Texture("entities/player.png"));
         setSpeed(250);
 
-        animation = createAnimation(frames, frameTime);
+        animation = createAnimation(frameTime);
 
         bullets = new ArrayList<>();
         bulletsToRemove = new ArrayList<>();
@@ -97,13 +100,15 @@ public class Player extends BaseEntity{
         }
 
         bullets.removeAll(bulletsToRemove);
+
+        elapsedTime += deltaTime;
     }
 
-    public void render(SpriteBatch batch,float elapsedTime){
+    public void render(SpriteBatch batch){
 
         for(Bullet bullet : bullets){
             bullet.render(batch);
         }
-        batch.draw((TextureRegion) animation.getKeyFrame(elapsedTime,true),0,0);
+        batch.draw((TextureRegion) animation.getKeyFrame(elapsedTime,true),getX(),getY());
     }
 }

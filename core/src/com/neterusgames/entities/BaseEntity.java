@@ -40,23 +40,9 @@ public abstract class BaseEntity {
         height = texture.getHeight() * SCALE;
     }
 
-    public Animation createAnimation(int frames, float frameTime){
-
-        TextureRegion[][] splitedFrames = TextureRegion.split(texture, width/SCALE, height/SCALE);
-
-        int columns = texture.getWidth()/(width/SCALE);
-        int lines = texture.getHeight()/(height/SCALE);
-
-        TextureRegion[] animationFrames = new TextureRegion[frames];
-        int index = 0;
-
-        for(int i = 0; i > lines; i++){
-            for(int j = 0; j > columns; j++){
-                animationFrames[index++] = splitedFrames[i][j];
-            }
-        }
-
-        return new Animation(frameTime,animationFrames);
+    public Animation createAnimation(float frameTime){
+        return new Animation(frameTime,
+                TextureRegion.split(getTexture(),width/SCALE, height/SCALE)[0]);
     }
 
     public float getX() {
@@ -86,6 +72,7 @@ public abstract class BaseEntity {
     public void setWidth(int width){
         this.width = width* SCALE;
     }
+
     public int getWidth() {
         return width;
     }
