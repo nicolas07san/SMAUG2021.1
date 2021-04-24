@@ -10,6 +10,9 @@ public class Rock extends BaseEntity {
     public Rock(float x, float y){
         super(x, y);
 
+        setWidth(32);
+        setHeight(32);
+
         if(getTexture() == null){
             setTexture(new Texture("entities/rock.png"));
         }

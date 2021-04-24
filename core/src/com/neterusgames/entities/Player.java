@@ -3,7 +3,9 @@ package com.neterusgames.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.neterusgames.game.Main;
 
 import java.util.ArrayList;
@@ -15,13 +17,23 @@ public class Player extends BaseEntity{
     private float timer;
     private float shootTimer;
 
+    private int frames = 14;
+    private float frameTime = 0.25f;
+
+    private Animation animation;
+
     private ArrayList<Bullet> bullets;
     private ArrayList<Bullet> bulletsToRemove;
 
     public Player(float x, float y){
         super(x, y);
+
+        setWidth(32);
+        setHeight(32);
         setTexture(new Texture("entities/player.png"));
         setSpeed(250);
+
+        animation = createAnimation(frames, frameTime);
 
         bullets = new ArrayList<>();
         bulletsToRemove = new ArrayList<>();
@@ -87,11 +99,11 @@ public class Player extends BaseEntity{
         bullets.removeAll(bulletsToRemove);
     }
 
-    public void render(SpriteBatch batch){
+    public void render(SpriteBatch batch,float elapsedTime){
 
         for(Bullet bullet : bullets){
             bullet.render(batch);
         }
-        super.render(batch);
+        batch.draw((TextureRegion) animation.getKeyFrame(elapsedTime,true),0,0);
     }
 }

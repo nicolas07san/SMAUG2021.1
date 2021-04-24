@@ -1,9 +1,7 @@
 package com.neterusgames.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.neterusgames.entities.Player;
 import com.neterusgames.entities.Rock;
 import com.neterusgames.game.Main;
@@ -23,6 +21,8 @@ public class GameScreen extends BaseScreen{
     private float minRockTimer = 0.3f;
     private ArrayList<Rock> rocks = new ArrayList<>();
     private ArrayList<Rock> rocksToRemove = new ArrayList<>();
+
+    private float elapsedTime;
 
     public GameScreen(Main main){
         super(main);
@@ -50,13 +50,15 @@ public class GameScreen extends BaseScreen{
         }
         rocks.removeAll(rocksToRemove);
 
+        elapsedTime += delta;
+
         //Render entities
         Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         main.batch.begin();
 
-        player.render(main.batch);
+        player.render(main.batch, elapsedTime);
 
         for(Rock rock : rocks){
             rock.render(main.batch);

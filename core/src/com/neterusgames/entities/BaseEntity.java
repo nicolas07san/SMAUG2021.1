@@ -1,7 +1,9 @@
 package com.neterusgames.entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.neterusgames.game.Main;
 
 public abstract class BaseEntity {
@@ -12,7 +14,7 @@ public abstract class BaseEntity {
 
     private int width;
     private int height;
-    private int scale;
+    private final int SCALE;
 
     private Texture texture;
 
@@ -23,7 +25,7 @@ public abstract class BaseEntity {
         this.speed = 100;
         texture = null;
 
-        scale = Main.SCALE;
+        SCALE = Main.SCALE;
     }
 
     public abstract void update(float deltaTime);
@@ -34,8 +36,27 @@ public abstract class BaseEntity {
 
     public void setTexture(Texture texture) {
         this.texture = texture;
-        width = texture.getWidth() * scale;
-        height = texture.getHeight() * scale;
+        width = texture.getWidth() * SCALE;
+        height = texture.getHeight() * SCALE;
+    }
+
+    public Animation createAnimation(int frames, float frameTime){
+
+        TextureRegion[][] splitedFrames = TextureRegion.split(texture, width/SCALE, height/SCALE);
+
+        int columns = texture.getWidth()/(width/SCALE);
+        int lines = texture.getHeight()/(height/SCALE);
+
+        TextureRegion[] animationFrames = new TextureRegion[frames];
+        int index = 0;
+
+        for(int i = 0; i > lines; i++){
+            for(int j = 0; j > columns; j++){
+                animationFrames[index++] = splitedFrames[i][j];
+            }
+        }
+
+        return new Animation(frameTime,animationFrames);
     }
 
     public float getX() {
@@ -62,8 +83,15 @@ public abstract class BaseEntity {
         this.speed = speed;
     }
 
+    public void setWidth(int width){
+        this.width = width* SCALE;
+    }
     public int getWidth() {
         return width;
+    }
+
+    public void setHeight(int height){
+        this.height = height* SCALE;
     }
 
     public int getHeight(){
