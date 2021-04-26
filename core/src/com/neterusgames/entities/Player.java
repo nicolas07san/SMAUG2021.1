@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.neterusgames.game.Main;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Player extends BaseEntity{
     private float elapsedTime;
 
     private Animation animation;
+    private Circle circle;
 
     private ArrayList<Bullet> bullets;
     private ArrayList<Bullet> bulletsToRemove;
@@ -34,6 +36,12 @@ public class Player extends BaseEntity{
 
         setWidth(32);
         setHeight(32);
+
+        if(circle == null){
+            setCircle(getCenterX(),getY(),11);
+            circle = new Circle(getCircle());
+        }
+
         setSpeed(250);
 
         animation = createAnimation(frameTime);
@@ -51,9 +59,9 @@ public class Player extends BaseEntity{
         if(timer >= shootTimer){
             timer = 0;
             int offset = 4;
-            bullets.add(new Bullet(getX() - offset,getY() + getHeight()/2,
+            bullets.add(new Bullet(getX() - offset,getY() + getHeight()/2f,
                     "entities/player-bullet.png"));
-            bullets.add(new Bullet(getX() + getWidth() - offset ,getY() + getHeight()/2,
+            bullets.add(new Bullet(getX() + getWidth() - offset ,getY() + getHeight()/2f,
                     "entities/player-bullet.png"));
         }
     }
@@ -99,6 +107,8 @@ public class Player extends BaseEntity{
             }
         }
 
+        circle.setPosition(getCenterX(),getY());
+
         bullets.removeAll(bulletsToRemove);
 
         elapsedTime += deltaTime;
@@ -109,6 +119,6 @@ public class Player extends BaseEntity{
         for(Bullet bullet : bullets){
             bullet.render(batch);
         }
-        batch.draw((TextureRegion) animation.getKeyFrame(elapsedTime,true),getX(),getY());
+        batch.draw((TextureRegion) animation.getKeyFrame(elapsedTime,true),getX(),getY(),getWidth(),getHeight());
     }
 }

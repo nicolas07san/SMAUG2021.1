@@ -43,7 +43,10 @@ public class GameScreen extends BaseScreen{
 
         for(Rock rock : rocks){
             rock.update(delta);
-            if(rock.isOutOfScreen()){
+            if(rock.isColliding(player.getCircle())){
+                System.out.println("Está colidindo");
+            }
+            if(rock.isRemove()){
                 rocksToRemove.add(rock);
             }
         }

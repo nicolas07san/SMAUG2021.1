@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.foregroundFPS = 60;
 		config.backgroundFPS = 30;
 
+
 		config.width = Main.WIDTH;
 		config.height = Main.HEIGHT;
 

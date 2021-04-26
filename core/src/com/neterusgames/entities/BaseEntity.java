@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.neterusgames.game.Main;
 
 public abstract class BaseEntity {
@@ -14,9 +15,11 @@ public abstract class BaseEntity {
 
     private int width;
     private int height;
-    private final int SCALE;
+    private final int SCALE = Main.SCALE;
 
     private Texture texture;
+
+    private Circle circle;
 
     public BaseEntity(float x, float y) {
 
@@ -25,7 +28,6 @@ public abstract class BaseEntity {
         this.speed = 100;
         texture = null;
 
-        SCALE = Main.SCALE;
     }
 
     public abstract void update(float deltaTime);
@@ -70,7 +72,7 @@ public abstract class BaseEntity {
     }
 
     public void setWidth(int width){
-        this.width = width* SCALE;
+        this.width = width * SCALE;
     }
 
     public int getWidth() {
@@ -78,7 +80,7 @@ public abstract class BaseEntity {
     }
 
     public void setHeight(int height){
-        this.height = height* SCALE;
+        this.height = height * SCALE;
     }
 
     public int getHeight(){
@@ -89,5 +91,23 @@ public abstract class BaseEntity {
         return texture;
     }
 
+    public float getCenterX(){
+        return x + width / 2f;
+    }
 
+    public float getCenterY() {
+        return y + height / 2f;
+    }
+
+    public void setCircle(float x, float y, float radius){
+        this.circle = new Circle(x, y, radius);
+    }
+
+    public Circle getCircle(){
+        return this.circle;
+    }
+
+    public boolean isColliding (Circle other){
+        return this.circle.overlaps(other);
+    }
 }

@@ -4,14 +4,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 
 public class Rock extends BaseEntity {
 
     private float frameTime = 0.25f;
     private float stateTime;
-    private boolean outOfScreen = false;
+    private boolean remove = false;
 
-    Animation animation;
+    private Animation animation;
+    private Circle circle;
 
     public Rock(float x, float y){
         super(x, y);
@@ -23,6 +25,11 @@ public class Rock extends BaseEntity {
         setWidth(24);
         setHeight(24);
 
+        if(circle == null){
+            setCircle(getCenterX(),getCenterY(),12);
+            circle = new Circle(getCircle());
+        }
+
         animation = createAnimation(0.25f);
 
         setSpeed(350);
@@ -32,16 +39,18 @@ public class Rock extends BaseEntity {
     public void update(float deltaTime) {
         setY(getY() - getSpeed()*deltaTime);
         if(getY() < -getHeight()){
-            outOfScreen = true;
+            remove = true;
         }
+        circle.setPosition(getCenterX(),getCenterY());
         stateTime += deltaTime;
+
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw((TextureRegion) animation.getKeyFrame(stateTime,true), getX(), getY());
+        batch.draw((TextureRegion) animation.getKeyFrame(stateTime,true), getX(), getY(), getWidth(), getHeight());
     }
 
-    public boolean isOutOfScreen() {
-        return outOfScreen;
+    public boolean isRemove() {
+        return remove;
     }
 }
