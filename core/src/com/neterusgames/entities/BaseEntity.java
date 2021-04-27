@@ -107,4 +107,8 @@ public abstract class BaseEntity {
         return this.circle;
     }
 
+    public void moveCircle(float x, float y){
+        circle.setPosition(x, y);
+    }
+
 }

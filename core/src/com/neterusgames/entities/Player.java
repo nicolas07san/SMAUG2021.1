@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
-import com.neterusgames.game.Main;
 
 import java.util.ArrayList;
 
@@ -22,7 +21,6 @@ public class Player extends BaseEntity{
     private float elapsedTime;
 
     private Animation animation;
-    private Circle circle;
 
     private ArrayList<Bullet> bullets;
     private ArrayList<Bullet> bulletsToRemove;
@@ -37,9 +35,9 @@ public class Player extends BaseEntity{
         setWidth(32);
         setHeight(32);
 
-        if(circle == null){
+        if(getCircle() == null){
             setCircle(getCenterX(),getY(),11);
-            circle = new Circle(getCircle());
+
         }
 
         setSpeed(250);
@@ -107,7 +105,7 @@ public class Player extends BaseEntity{
             }
         }
 
-        circle.setPosition(getCenterX(),getY());
+        moveCircle(getCenterX(), getY());
 
         bullets.removeAll(bulletsToRemove);
 

@@ -70,6 +70,8 @@ public class GameScreen extends BaseScreen{
             rock.render(main.batch);
         }
 
+        System.out.println("Player Circle = " + player.getCircle().toString());
+
         main.batch.end();
     }
 

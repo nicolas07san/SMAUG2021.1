@@ -13,7 +13,6 @@ public class Rock extends BaseEntity {
     private boolean remove = false;
 
     private Animation animation;
-    private Circle circle;
 
     public Rock(float x, float y){
         super(x, y);
@@ -25,9 +24,8 @@ public class Rock extends BaseEntity {
         setWidth(24);
         setHeight(24);
 
-        if(circle == null){
+        if(getCircle() == null){
             setCircle(getCenterX(),getCenterY(),12);
-            circle = new Circle(getCircle());
         }
 
         animation = createAnimation(0.25f);
@@ -42,7 +40,7 @@ public class Rock extends BaseEntity {
             remove = true;
         }
 
-        circle.setPosition(getCenterX(),getCenterY());
+        moveCircle(getCenterX(),getCenterY());
 
         stateTime += deltaTime;
 
