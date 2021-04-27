@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.neterusgames.game.Main;
 
 public abstract class BaseEntity {
@@ -19,7 +20,7 @@ public abstract class BaseEntity {
 
     private Texture texture;
 
-    private Circle circle;
+    private Rectangle rectangle;
 
     public BaseEntity(float x, float y) {
 
@@ -42,9 +43,9 @@ public abstract class BaseEntity {
         height = texture.getHeight() * SCALE;
     }
 
-    public Animation createAnimation(float frameTime){
-        return new Animation(frameTime,
-                TextureRegion.split(getTexture(),width/SCALE, height/SCALE)[0]);
+    public Animation<TextureRegion> createAnimation(float frameTime){
+        return new Animation<>(frameTime,
+                TextureRegion.split(texture, width / SCALE, height / SCALE)[0]);
     }
 
     public float getX() {
@@ -99,16 +100,21 @@ public abstract class BaseEntity {
         return y + height / 2f;
     }
 
-    public void setCircle(float x, float y, float radius){
-        this.circle = new Circle(x, y, radius);
+    public void setRectangle(float x, float y, float width, float height){
+        if(rectangle ==  null){
+            this.rectangle = new Rectangle(x, y, width, height);
+        }
+        else{
+            rectangle.set(x, y, width, height);
+        }
     }
 
-    public Circle getCircle(){
-        return this.circle;
+    public Rectangle getRectangle(){
+        return this.rectangle;
     }
 
-    public void moveCircle(float x, float y){
-        circle.setPosition(x, y);
+    public void moveRectangle(float x, float y){
+        rectangle.setCenter(x, y);
     }
 
 }

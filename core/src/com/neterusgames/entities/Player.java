@@ -20,7 +20,7 @@ public class Player extends BaseEntity{
     private float frameTime = 0.25f;
     private float elapsedTime;
 
-    private Animation animation;
+    private Animation <TextureRegion> animation;
 
     private ArrayList<Bullet> bullets;
     private ArrayList<Bullet> bulletsToRemove;
@@ -35,10 +35,7 @@ public class Player extends BaseEntity{
         setWidth(32);
         setHeight(32);
 
-        if(getCircle() == null){
-            setCircle(getCenterX(),getY(),11);
-
-        }
+        setRectangle(getX(),getY(),getWidth(),getHeight());
 
         setSpeed(250);
 
@@ -69,7 +66,7 @@ public class Player extends BaseEntity{
         //check bullets that are off the screen
         for(Bullet bullet : bullets){
             bullet.update(deltaTime);
-            if(bullet.isOutOfScreen()){
+            if(bullet.isRemove()){
                 bulletsToRemove.add(bullet);
             }
         }
@@ -105,7 +102,7 @@ public class Player extends BaseEntity{
             }
         }
 
-        moveCircle(getCenterX(), getY());
+        moveRectangle(getCenterX(), getCenterY());
 
         bullets.removeAll(bulletsToRemove);
 
@@ -117,6 +114,10 @@ public class Player extends BaseEntity{
         for(Bullet bullet : bullets){
             bullet.render(batch);
         }
-        batch.draw((TextureRegion) animation.getKeyFrame(elapsedTime,true),getX(),getY(),getWidth(),getHeight());
+        batch.draw(animation.getKeyFrame(elapsedTime,true),getX(),getY(),getWidth(),getHeight());
+    }
+
+    public ArrayList<Bullet> getBullets(){
+        return bullets;
     }
 }

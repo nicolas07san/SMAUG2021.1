@@ -12,7 +12,7 @@ public class Rock extends BaseEntity {
     private float stateTime;
     private boolean remove = false;
 
-    private Animation animation;
+    private Animation<TextureRegion> animation;
 
     public Rock(float x, float y){
         super(x, y);
@@ -24,11 +24,9 @@ public class Rock extends BaseEntity {
         setWidth(24);
         setHeight(24);
 
-        if(getCircle() == null){
-            setCircle(getCenterX(),getCenterY(),12);
-        }
+        setRectangle(getX(),getY(),getWidth(),getHeight());
 
-        animation = createAnimation(0.25f);
+        animation = createAnimation(frameTime);
 
         setSpeed(350);
 
@@ -40,14 +38,14 @@ public class Rock extends BaseEntity {
             remove = true;
         }
 
-        moveCircle(getCenterX(),getCenterY());
+        moveRectangle(getCenterX(),getCenterY());
 
         stateTime += deltaTime;
 
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw((TextureRegion) animation.getKeyFrame(stateTime,true), getX(), getY(), getWidth(), getHeight());
+        batch.draw(animation.getKeyFrame(stateTime,true), getX(), getY(), getWidth(), getHeight());
     }
 
     public boolean isRemove() {
