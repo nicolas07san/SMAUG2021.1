@@ -25,7 +25,7 @@ public class GameScreen extends BaseScreen{
 
     public GameScreen(Main main){
         super(main);
-        player = new Player(Gdx.graphics.getWidth()/2 - 16, 15 );
+        player = new Player(Gdx.graphics.getWidth()/2f - 16, 15 );
 
         rockSpawnTimer = random.nextFloat() * (maxRockTimer - minRockTimer) + minRockTimer;
     }
@@ -43,13 +43,19 @@ public class GameScreen extends BaseScreen{
 
         for(Rock rock : rocks){
             rock.update(delta);
-            if(rock.isColliding(player.getCircle())){
-                System.out.println("Está colidindo");
-            }
             if(rock.isRemove()){
+                rocksToRemove.add(rock);
+
+            }
+
+        }
+
+        for (Rock rock : rocks){
+            if(rock.getCircle().overlaps(player.getCircle())){
                 rocksToRemove.add(rock);
             }
         }
+
         rocks.removeAll(rocksToRemove);
 
         //Render entities

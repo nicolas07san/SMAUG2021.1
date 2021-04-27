@@ -41,7 +41,9 @@ public class Rock extends BaseEntity {
         if(getY() < -getHeight()){
             remove = true;
         }
+
         circle.setPosition(getCenterX(),getCenterY());
+
         stateTime += deltaTime;
 
     }

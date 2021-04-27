@@ -107,7 +107,4 @@ public abstract class BaseEntity {
         return this.circle;
     }
 
-    public boolean isColliding (Circle other){
-        return this.circle.overlaps(other);
-    }
 }
