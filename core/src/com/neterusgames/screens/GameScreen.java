@@ -17,28 +17,28 @@ public class GameScreen extends BaseScreen{
     //Rock logic variables
     private float rockSpawnTimer;
     private float maxRockTimer = 0.6f;
-    private float minRockTimer = 0.3f;
+    private float minRockTimer = 0.1f;
     private ArrayList<Rock> rocks = new ArrayList<>();
     private ArrayList<Rock> rocksToRemove = new ArrayList<>();
 
     //EnemyTank logic variables
     private float tankSpawnTimer;
-    private float maxTankTimer = 0.6f;
-    private float minTankTimer = 0.3f;
+    private float maxTankTimer = 2f;
+    private float minTankTimer = 0.5f;
     private ArrayList<EnemyTank> tanks = new ArrayList<>();
     private ArrayList<EnemyTank> tanksToRemove = new ArrayList<>();
 
     //Enemy Lurker logic variables
     private float lurkerSpawnTimer;
-    private float maxLurkerTimer = 0.6f;
-    private float minLurkerTimer = 0.3f;
+    private float maxLurkerTimer = 1f;
+    private float minLurkerTimer = 0.5f;
     private ArrayList<EnemyLurker> lurkers = new ArrayList<>();
     private ArrayList<EnemyLurker> lurkersToRemove = new ArrayList<>();
 
     //Enemy Ranged logic variables
     private float rangedSpawnTimer;
-    private float maxRangedTimer = 0.6f;
-    private float minRangedTimer = 0.3f;
+    private float maxRangedTimer = 1f;
+    private float minRangedTimer = 0.5f;
     private ArrayList<EnemyRanged> rangeds = new ArrayList<>();
     private ArrayList<EnemyRanged> rangedsToRemove = new ArrayList<>();
 
@@ -91,9 +91,12 @@ public class GameScreen extends BaseScreen{
         // Rock logic
         for(Rock rock : rocks){
             rock.update(delta);
-            if(rock.isRemove() || rock.getRectangle().overlaps(player.getRectangle())){
+            if(rock.isRemove()){
                 rocksToRemove.add(rock);
-
+            }
+            if(rock.getRectangle().overlaps(player.getRectangle())){
+                player.decreaseHealth(0.1f);
+                rocksToRemove.add(rock);
             }
         }
         for (Rock rock : rocks){
@@ -109,15 +112,22 @@ public class GameScreen extends BaseScreen{
         // Enemy tank logic
         for(EnemyTank tank : tanks){
             tank.update(delta);
-            if(tank.isRemove() || tank.getRectangle().overlaps(player.getRectangle())){
+            if(tank.isRemove()){
+                tanksToRemove.add(tank);
+            }
+            if(tank.getRectangle().overlaps(player.getRectangle())){
+                player.decreaseHealth(0.3f);
                 tanksToRemove.add(tank);
             }
         }
         for(EnemyTank tank :  tanks){
             for(Bullet bullet : player.getBullets()){
                 if(bullet.getRectangle().overlaps(tank.getRectangle())){
-                    tanksToRemove.add(tank);
                     bullet.setRemove(true);
+                    tank.decreaseHealth(bullet.getDamage()/4);
+                    if(tank.isDead()){
+                        tanksToRemove.add(tank);
+                    }
                 }
             }
         }
@@ -125,15 +135,22 @@ public class GameScreen extends BaseScreen{
         // Enemy lurker logic
         for(EnemyLurker lurker : lurkers){
             lurker.update(delta);
-            if(lurker.isRemove() || lurker.getRectangle().overlaps(player.getRectangle())){
+            if(lurker.isRemove()){
+                lurkersToRemove.add(lurker);
+            }
+            if(lurker.getRectangle().overlaps(player.getRectangle())){
+                player.decreaseHealth(0.2f);
                 lurkersToRemove.add(lurker);
             }
         }
         for(EnemyLurker lurker : lurkers){
             for(Bullet bullet :  player.getBullets()){
                 if(bullet.getRectangle().overlaps(lurker.getRectangle())){
-                    lurkersToRemove.add(lurker);
+                    lurker.decreaseHealth(bullet.getDamage()/2);
                     bullet.setRemove(true);
+                    if(lurker.isDead()){
+                        lurkersToRemove.add(lurker);
+                    }
                 }
             }
         }
@@ -141,19 +158,28 @@ public class GameScreen extends BaseScreen{
         //Enemy ranged logic
         for(EnemyRanged ranged : rangeds){
             ranged.update(delta);
-            if(ranged.isRemove() || ranged.getRectangle().overlaps(player.getRectangle())){
+            if(ranged.isRemove()){
+                rangedsToRemove.add(ranged);
+            }
+            if(ranged.getRectangle().overlaps(player.getRectangle())){
+                player.decreaseHealth(0.1f);
                 rangedsToRemove.add(ranged);
             }
         }
         for(EnemyRanged ranged : rangeds){
             for(Bullet bullet : player.getBullets()){
                 if(bullet.getRectangle().overlaps(ranged.getRectangle())){
-                    rangedsToRemove.add(ranged);
+                    if(ranged.isDead()){
+                        rangedsToRemove.add(ranged);
+                    }
+                    ranged.decreaseHealth(bullet.getDamage());
+                    bullet.setRemove(true);
                 }
             }
             for(Bullet bullet : ranged.getBullets()){
                 if(bullet.getRectangle().overlaps(player.getRectangle())){
                     bullet.setRemove(true);
+                    player.decreaseHealth(0.2f);
                 }
             }
         }
@@ -186,9 +212,6 @@ public class GameScreen extends BaseScreen{
         for(EnemyRanged ranged : rangeds){
             ranged.render(main.batch);
         }
-
-        //System.out.println("Player Rectangle = " + player.getRectangle().toString());
-        System.out.println("Quantidade de rangeds na tela: " + rangeds.size());
 
         main.batch.end();
     }

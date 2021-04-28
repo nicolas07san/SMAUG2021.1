@@ -1,7 +1,10 @@
 package com.neterusgames.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
@@ -13,14 +16,18 @@ public abstract class BaseEntity {
     private float x;
     private float y;
     private float speed;
+    private float health;
 
     private int width;
     private int height;
     private final int SCALE = Main.SCALE;
 
     private Texture texture;
+    private Texture healthBar;
 
     private Rectangle rectangle;
+
+    private boolean dead;
 
     public BaseEntity(float x, float y) {
 
@@ -28,6 +35,9 @@ public abstract class BaseEntity {
         this.y = y;
         this.speed = 100;
         texture = null;
+        healthBar = new Texture("entities/blank.png");
+        health = 1f;
+        dead = false;
 
     }
 
@@ -115,6 +125,38 @@ public abstract class BaseEntity {
 
     public void moveRectangle(float x, float y){
         rectangle.setCenter(x, y);
+    }
+
+    public void decreaseHealth(float damage){
+        health -= damage;
+    }
+
+    public boolean isDead(){
+        if(health <= 0){
+            dead = true;
+        }
+        return dead;
+    }
+
+    public float getHealth(){
+        return health;
+    }
+
+    public void drawHealthBar(SpriteBatch batch, float x, float y, float width, float height){
+
+        if(health > 0.6f){
+            batch.setColor(Color.GREEN);
+        }
+        else if(health > 0.2f){
+            batch.setColor(Color.ORANGE);
+        }
+        else{
+            batch.setColor(Color.RED);
+        }
+
+        batch.draw(healthBar, x, y, width, height);
+        batch.setColor(Color.WHITE);
+
     }
 
 }

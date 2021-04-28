@@ -25,6 +25,7 @@ public class EnemyTank extends BaseEntity{
     }
     public void render(SpriteBatch batch){
         super.render(batch);
+        drawHealthBar(batch,getX(),getY()+getHeight()+2, getWidth()*getHealth(),3);
     }
 
     public boolean isRemove(){

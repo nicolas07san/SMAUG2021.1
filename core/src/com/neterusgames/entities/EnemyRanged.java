@@ -1,11 +1,8 @@
 package com.neterusgames.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class EnemyRanged extends BaseEntity {
 
@@ -53,6 +50,7 @@ public class EnemyRanged extends BaseEntity {
             bullet.render(batch);
         }
         super.render(batch);
+        drawHealthBar(batch,getX(),getY()+getHeight()+2, getWidth()*getHealth(),3);
     }
 
     private void shoot(float deltaTime){
@@ -60,7 +58,7 @@ public class EnemyRanged extends BaseEntity {
         if(timer >= shootTimer){
             timer = 0;
             bullets.add(new Bullet(getCenterX(),getCenterY(),
-                    "entities/enemy-bullet.png",-1f));
+                    "entities/enemy-bullet.png",-1f, 0.3f));
 
         }
     }

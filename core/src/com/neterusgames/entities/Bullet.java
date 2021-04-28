@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Bullet extends BaseEntity {
 
     private boolean remove = false;
+    private float damage;
 
-    public Bullet(float x, float y, String path, float multiplier){
+    public Bullet(float x, float y, String path, float multiplier, float damage){
         super(x, y);
 
         if(getTexture() ==  null){
@@ -18,6 +19,7 @@ public class Bullet extends BaseEntity {
         setRectangle(getX(),getY(),getWidth(),getHeight());
 
         setSpeed(500*multiplier);
+        this.damage =  damage;
     }
 
     public void update(float deltaTime){
@@ -38,5 +40,9 @@ public class Bullet extends BaseEntity {
 
     public void setRemove(boolean remove) {
         this.remove = remove;
+    }
+
+    public float getDamage(){
+        return damage;
     }
 }

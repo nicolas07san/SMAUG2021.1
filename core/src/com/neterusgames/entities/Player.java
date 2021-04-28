@@ -2,6 +2,7 @@ package com.neterusgames.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,8 +12,6 @@ import com.badlogic.gdx.math.Circle;
 import java.util.ArrayList;
 
 public class Player extends BaseEntity{
-
-    private float health;
 
     private float timer;
     private float shootTimer;
@@ -44,7 +43,6 @@ public class Player extends BaseEntity{
         bullets = new ArrayList<>();
         bulletsToRemove = new ArrayList<>();
 
-        health = 1;
         shootTimer = 0.3f;
 
     }
@@ -55,9 +53,9 @@ public class Player extends BaseEntity{
             timer = 0;
             int offset = 4;
             bullets.add(new Bullet(getX() - offset,getY() + getHeight()/2f,
-                    "entities/player-bullet.png",1f));
+                    "entities/player-bullet.png",1f,0.55f));
             bullets.add(new Bullet(getX() + getWidth() - offset ,getY() + getHeight()/2f,
-                    "entities/player-bullet.png",1f));
+                    "entities/player-bullet.png",1f,0.55f));
         }
     }
 
@@ -109,15 +107,18 @@ public class Player extends BaseEntity{
         elapsedTime += deltaTime;
     }
 
-    public void render(SpriteBatch batch){
+    public void render(SpriteBatch batch) {
 
-        for(Bullet bullet : bullets){
+        for (Bullet bullet : bullets) {
             bullet.render(batch);
         }
-        batch.draw(animation.getKeyFrame(elapsedTime,true),getX(),getY(),getWidth(),getHeight());
+        batch.draw(animation.getKeyFrame(elapsedTime, true), getX(), getY(), getWidth(), getHeight());
+
+        drawHealthBar(batch,0,0,Gdx.graphics.getWidth()*getHealth(),5);
     }
 
     public ArrayList<Bullet> getBullets(){
         return bullets;
     }
+
 }

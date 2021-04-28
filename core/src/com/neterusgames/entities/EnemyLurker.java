@@ -1,5 +1,7 @@
 package com.neterusgames.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -9,9 +11,11 @@ public class EnemyLurker extends BaseEntity{
 
     public EnemyLurker(float x, float y){
         super(x, y);
+
         setTexture(new Texture("entities/enemy-lurker.png"));
         setRectangle(getX(),getY(),getWidth(),getHeight());
         setSpeed(250);
+
     }
 
     public void update(float deltaTime) {
@@ -29,6 +33,7 @@ public class EnemyLurker extends BaseEntity{
 
     public void render(SpriteBatch batch){
         super.render(batch);
+        drawHealthBar(batch,getX(),getY()+getHeight()+2, getWidth()*getHealth(),3);
     }
 
     public boolean isRemove(){
