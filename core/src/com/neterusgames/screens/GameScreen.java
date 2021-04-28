@@ -35,6 +35,13 @@ public class GameScreen extends BaseScreen{
     private ArrayList<EnemyLurker> lurkers = new ArrayList<>();
     private ArrayList<EnemyLurker> lurkersToRemove = new ArrayList<>();
 
+    //Enemy Ranged logic variables
+    private float rangedSpawnTimer;
+    private float maxRangedTimer = 0.6f;
+    private float minRangedTimer = 0.3f;
+    private ArrayList<EnemyRanged> rangeds = new ArrayList<>();
+    private ArrayList<EnemyRanged> rangedsToRemove = new ArrayList<>();
+
     public GameScreen(Main main){
         super(main);
         player = new Player(Gdx.graphics.getWidth()/2f - 16, 15 );
@@ -42,6 +49,7 @@ public class GameScreen extends BaseScreen{
         rockSpawnTimer = random.nextFloat() * (maxRockTimer - minRockTimer) + minRockTimer;
         tankSpawnTimer = random.nextFloat() * (maxTankTimer - minTankTimer) + minTankTimer;
         lurkerSpawnTimer = random.nextFloat() * (maxLurkerTimer - minLurkerTimer) + minLurkerTimer;
+        rangedSpawnTimer = random.nextFloat() * (maxRangedTimer - minRangedTimer) + minRangedTimer;
     }
 
     public void render(float delta) {
@@ -72,6 +80,15 @@ public class GameScreen extends BaseScreen{
                     random.nextInt(Gdx.graphics.getHeight() - 32)));
         }
 
+        // Enemy Ranged Spawn Code
+        rangedSpawnTimer -= delta;
+        if(rangedSpawnTimer <= 0){
+            rangedSpawnTimer = random.nextFloat() * (maxRangedTimer - minRangedTimer) + minRangedTimer;
+            rangeds.add(new EnemyRanged(random.nextInt(Gdx.graphics.getWidth() - 32),
+                    Gdx.graphics.getHeight()));
+        }
+
+        // Rock logic
         for(Rock rock : rocks){
             rock.update(delta);
             if(rock.isRemove() || rock.getRectangle().overlaps(player.getRectangle())){
@@ -79,7 +96,6 @@ public class GameScreen extends BaseScreen{
 
             }
         }
-
         for (Rock rock : rocks){
             for(Bullet bullet : player.getBullets()){
                 if(bullet.getRectangle().overlaps(rock.getRectangle())){
@@ -90,7 +106,9 @@ public class GameScreen extends BaseScreen{
             }
         }
 
+        // Enemy tank logic
         for(EnemyTank tank : tanks){
+            tank.update(delta);
             if(tank.isRemove() || tank.getRectangle().overlaps(player.getRectangle())){
                 tanksToRemove.add(tank);
             }
@@ -104,7 +122,9 @@ public class GameScreen extends BaseScreen{
             }
         }
 
+        // Enemy lurker logic
         for(EnemyLurker lurker : lurkers){
+            lurker.update(delta);
             if(lurker.isRemove() || lurker.getRectangle().overlaps(player.getRectangle())){
                 lurkersToRemove.add(lurker);
             }
@@ -118,9 +138,30 @@ public class GameScreen extends BaseScreen{
             }
         }
 
+        //Enemy ranged logic
+        for(EnemyRanged ranged : rangeds){
+            ranged.update(delta);
+            if(ranged.isRemove() || ranged.getRectangle().overlaps(player.getRectangle())){
+                rangedsToRemove.add(ranged);
+            }
+        }
+        for(EnemyRanged ranged : rangeds){
+            for(Bullet bullet : player.getBullets()){
+                if(bullet.getRectangle().overlaps(ranged.getRectangle())){
+                    rangedsToRemove.add(ranged);
+                }
+            }
+            for(Bullet bullet : ranged.getBullets()){
+                if(bullet.getRectangle().overlaps(player.getRectangle())){
+                    bullet.setRemove(true);
+                }
+            }
+        }
+
         rocks.removeAll(rocksToRemove);
         tanks.removeAll(tanksToRemove);
         lurkers.removeAll(lurkersToRemove);
+        rangeds.removeAll(rangedsToRemove);
 
         //Render entities
         Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
@@ -142,7 +183,12 @@ public class GameScreen extends BaseScreen{
             lurker.render(main.batch);
         }
 
-        System.out.println("Player Rectangle = " + player.getRectangle().toString());
+        for(EnemyRanged ranged : rangeds){
+            ranged.render(main.batch);
+        }
+
+        //System.out.println("Player Rectangle = " + player.getRectangle().toString());
+        System.out.println("Quantidade de rangeds na tela: " + rangeds.size());
 
         main.batch.end();
     }

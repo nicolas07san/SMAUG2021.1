@@ -16,7 +16,7 @@ public class EnemyTank extends BaseEntity{
 
     public void update(float deltaTime) {
         setY(getY() - getSpeed() * deltaTime);
-        if(getY() < -getHeight()){
+        if(getY() <= -getHeight()){
             remove = true;
         }
 

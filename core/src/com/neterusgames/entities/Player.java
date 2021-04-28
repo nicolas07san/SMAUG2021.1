@@ -55,9 +55,9 @@ public class Player extends BaseEntity{
             timer = 0;
             int offset = 4;
             bullets.add(new Bullet(getX() - offset,getY() + getHeight()/2f,
-                    "entities/player-bullet.png"));
+                    "entities/player-bullet.png",1f));
             bullets.add(new Bullet(getX() + getWidth() - offset ,getY() + getHeight()/2f,
-                    "entities/player-bullet.png"));
+                    "entities/player-bullet.png",1f));
         }
     }
 
