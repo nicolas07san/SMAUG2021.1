@@ -1,11 +1,12 @@
-package com.neterusgames.entities;
+package com.neterusgames.entities.enemies;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.neterusgames.entities.BaseEntity;
 
-public class EnemyLurker extends BaseEntity{
+public class EnemyLurker extends BaseEntity {
 
     private boolean remove = false;
 

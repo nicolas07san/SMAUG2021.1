@@ -1,7 +1,10 @@
-package com.neterusgames.entities;
+package com.neterusgames.entities.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.neterusgames.entities.BaseEntity;
+import com.neterusgames.entities.Bullet;
+
 import java.util.ArrayList;
 
 public class EnemyRanged extends BaseEntity {

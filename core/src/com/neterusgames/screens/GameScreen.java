@@ -3,6 +3,10 @@ package com.neterusgames.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.neterusgames.entities.*;
+import com.neterusgames.entities.enemies.EnemyLurker;
+import com.neterusgames.entities.enemies.EnemyRanged;
+import com.neterusgames.entities.enemies.EnemyTank;
+import com.neterusgames.entities.enemies.Rock;
 import com.neterusgames.game.Main;
 
 import java.util.ArrayList;
@@ -39,8 +43,8 @@ public class GameScreen extends BaseScreen{
     private float rangedSpawnTimer;
     private float maxRangedTimer = 1f;
     private float minRangedTimer = 0.5f;
-    private ArrayList<EnemyRanged> rangeds = new ArrayList<>();
-    private ArrayList<EnemyRanged> rangedsToRemove = new ArrayList<>();
+    private ArrayList<EnemyRanged> rangers = new ArrayList<>();
+    private ArrayList<EnemyRanged> rangersToRemove = new ArrayList<>();
 
     public GameScreen(Main main){
         super(main);
@@ -84,7 +88,7 @@ public class GameScreen extends BaseScreen{
         rangedSpawnTimer -= delta;
         if(rangedSpawnTimer <= 0){
             rangedSpawnTimer = random.nextFloat() * (maxRangedTimer - minRangedTimer) + minRangedTimer;
-            rangeds.add(new EnemyRanged(random.nextInt(Gdx.graphics.getWidth() - 32),
+            rangers.add(new EnemyRanged(random.nextInt(Gdx.graphics.getWidth() - 32),
                     Gdx.graphics.getHeight()));
         }
 
@@ -156,21 +160,21 @@ public class GameScreen extends BaseScreen{
         }
 
         //Enemy ranged logic
-        for(EnemyRanged ranged : rangeds){
+        for(EnemyRanged ranged : rangers){
             ranged.update(delta);
             if(ranged.isRemove()){
-                rangedsToRemove.add(ranged);
+                rangersToRemove.add(ranged);
             }
             if(ranged.getRectangle().overlaps(player.getRectangle())){
                 player.decreaseHealth(0.1f);
-                rangedsToRemove.add(ranged);
+                rangersToRemove.add(ranged);
             }
         }
-        for(EnemyRanged ranged : rangeds){
+        for(EnemyRanged ranged : rangers){
             for(Bullet bullet : player.getBullets()){
                 if(bullet.getRectangle().overlaps(ranged.getRectangle())){
                     if(ranged.isDead()){
-                        rangedsToRemove.add(ranged);
+                        rangersToRemove.add(ranged);
                     }
                     ranged.decreaseHealth(bullet.getDamage());
                     bullet.setRemove(true);
@@ -187,7 +191,7 @@ public class GameScreen extends BaseScreen{
         rocks.removeAll(rocksToRemove);
         tanks.removeAll(tanksToRemove);
         lurkers.removeAll(lurkersToRemove);
-        rangeds.removeAll(rangedsToRemove);
+        rangers.removeAll(rangersToRemove);
 
         //Render entities
         Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
@@ -209,9 +213,11 @@ public class GameScreen extends BaseScreen{
             lurker.render(main.batch);
         }
 
-        for(EnemyRanged ranged : rangeds){
+        for(EnemyRanged ranged : rangers){
             ranged.render(main.batch);
         }
+
+        System.out.println(player.getClass());
 
         main.batch.end();
     }

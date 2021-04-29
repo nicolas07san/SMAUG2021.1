@@ -1,9 +1,10 @@
-package com.neterusgames.entities;
+package com.neterusgames.entities.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.neterusgames.entities.BaseEntity;
 
-public class EnemyTank extends BaseEntity{
+public class EnemyTank extends BaseEntity {
 
     private boolean remove = false;
 
@@ -25,7 +26,7 @@ public class EnemyTank extends BaseEntity{
     }
     public void render(SpriteBatch batch){
         super.render(batch);
-        drawHealthBar(batch,getX(),getY()+getHeight()+2, getWidth()*getHealth(),3);
+        drawHealthBar(batch, getX(), getY()+getHeight()+2, getWidth()*getHealth(),3);
     }
 
     public boolean isRemove(){

@@ -1,10 +1,11 @@
-package com.neterusgames.entities;
+package com.neterusgames.entities.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
+import com.neterusgames.entities.BaseEntity;
 
 public class Rock extends BaseEntity {
 
