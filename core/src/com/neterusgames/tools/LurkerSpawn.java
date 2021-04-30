@@ -1,9 +1,10 @@
-package com.neterusgames.entities.enemies;
+package com.neterusgames.tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.neterusgames.entities.Bullet;
 import com.neterusgames.entities.Player;
+import com.neterusgames.entities.enemies.EnemyLurker;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.neterusgames.entities.*;
 import com.neterusgames.entities.enemies.*;
 import com.neterusgames.game.Main;
+import com.neterusgames.tools.LurkerSpawn;
+import com.neterusgames.tools.RangedSpawn;
+import com.neterusgames.tools.TankSpawn;
 
 import java.util.ArrayList;
 import java.util.Random;

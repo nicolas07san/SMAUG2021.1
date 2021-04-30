@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.neterusgames.screens.MainMenuScreen;
 
 public class Main extends Game {
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
+	public static final int WIDTH = 550;
+	public static final int HEIGHT = 650;
 	public static final int SCALE = 2;
 
 	private SplashWorker splashWorker;

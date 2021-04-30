@@ -112,7 +112,7 @@ public class Player extends BaseEntity{
         }
         batch.draw(animation.getKeyFrame(elapsedTime, true), getX(), getY(), getWidth(), getHeight());
 
-        drawHealthBar(batch,0,0,Gdx.graphics.getWidth()*getHealth(),5);
+        drawHealthBar(batch,0,0,Gdx.graphics.getWidth()*getHealth(),10);
     }
 
     public ArrayList<Bullet> getBullets(){
