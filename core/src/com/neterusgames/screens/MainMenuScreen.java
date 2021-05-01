@@ -79,6 +79,8 @@ public class MainMenuScreen extends BaseScreen {
 
         main.batch.begin();
 
+        main.scrollingBackground.updateAndRender(delta, main.batch);
+
         //playButton logic
         drawButton(playButtonInactive, playButtonActive, playButtonX, playButtonY,new GameScreen(main), main,
                 false);

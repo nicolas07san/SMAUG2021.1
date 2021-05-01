@@ -30,6 +30,8 @@ public class HowToPlayScreen extends BaseScreen{
 
         main.batch.begin();
 
+        main.scrollingBackground.updateAndRender(delta, main.batch);
+
         // backButton logic
         drawButton(backButtonInactive, backButtonActive, backButtonX, backButtonY, new MainMenuScreen(main),
                 main, false);

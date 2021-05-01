@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.neterusgames.screens.MainMenuScreen;
+import com.neterusgames.tools.ScrollingBackground;
 
 public class Main extends Game {
 	public static final int WIDTH = 550;
@@ -16,11 +17,13 @@ public class Main extends Game {
 	private SplashWorker splashWorker;
 
 	public SpriteBatch batch;
+	public ScrollingBackground scrollingBackground;
 	
 	@Override
 	public void create () {
 		splashWorker.closeSplashScreen();
 		batch = new SpriteBatch();
+		scrollingBackground = new ScrollingBackground();
 		setScreen(new MainMenuScreen(this));
 
 	}
@@ -39,5 +42,10 @@ public class Main extends Game {
 
 	public void setSplashWorker(SplashWorker splashWorker) {
 		this.splashWorker = splashWorker;
+	}
+
+	public void resize(int width, int height){
+		this.scrollingBackground.resize(width);
+		super.resize(width,height);
 	}
 }

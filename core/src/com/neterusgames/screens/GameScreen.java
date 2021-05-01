@@ -84,6 +84,8 @@ public class GameScreen extends BaseScreen{
 
         main.batch.begin();
 
+        main.scrollingBackground.updateAndRender(delta, main.batch);
+
         player.render(main.batch);
 
         for(Rock rock : rocks){
