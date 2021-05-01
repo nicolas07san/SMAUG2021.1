@@ -53,6 +53,7 @@ public class TankSpawn {
                     tank.decreaseHealth(bullet.getDamage()/4);
                     if(tank.isDead()){
                         tanksToRemove.add(tank);
+                        ScoreCounter.score += 500;
                     }
                 }
             }

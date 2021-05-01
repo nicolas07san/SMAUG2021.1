@@ -53,6 +53,7 @@ public class RangedSpawn {
                 if(bullet.getRectangle().overlaps(ranged.getRectangle())){
                     if(ranged.isDead()){
                         rangersToRemove.add(ranged);
+                        ScoreCounter.score += 200;
                     }
                     ranged.decreaseHealth(bullet.getDamage());
                     bullet.setRemove(true);

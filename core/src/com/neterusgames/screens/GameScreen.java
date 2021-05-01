@@ -7,6 +7,7 @@ import com.neterusgames.entities.enemies.*;
 import com.neterusgames.game.Main;
 import com.neterusgames.tools.LurkerSpawn;
 import com.neterusgames.tools.RangedSpawn;
+import com.neterusgames.tools.ScoreCounter;
 import com.neterusgames.tools.TankSpawn;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class GameScreen extends BaseScreen{
     private TankSpawn tankSpawn;
     private RangedSpawn rangedSpawn;
     private LurkerSpawn lurkerSpawn;
+    private ScoreCounter scoreCounter;
 
     public GameScreen(Main main){
         super(main);
@@ -35,6 +37,7 @@ public class GameScreen extends BaseScreen{
         tankSpawn = new TankSpawn(0.8f,2f, player);
         rangedSpawn = new RangedSpawn(0.5f, 1f, player);
         lurkerSpawn = new LurkerSpawn(0.3f,0.6f,player);
+        scoreCounter = new ScoreCounter();
 
         rockSpawnTimer = random.nextFloat() * (maxRockTimer - minRockTimer) + minRockTimer;
 
@@ -86,8 +89,6 @@ public class GameScreen extends BaseScreen{
 
         main.scrollingBackground.updateAndRender(delta, main.batch);
 
-        player.render(main.batch);
-
         for(Rock rock : rocks){
             rock.render(main.batch);
         }
@@ -95,6 +96,9 @@ public class GameScreen extends BaseScreen{
         tankSpawn.render(main.batch);
         lurkerSpawn.render(main.batch);
         rangedSpawn.render(main.batch);
+        player.render(main.batch);
+
+        scoreCounter.render(main.batch);
 
         System.out.println(player.getClass());
 

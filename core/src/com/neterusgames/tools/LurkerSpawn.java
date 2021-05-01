@@ -55,6 +55,7 @@ public class LurkerSpawn {
                     bullet.setRemove(true);
                     if(lurker.isDead()){
                         lurkersToRemove.add(lurker);
+                        ScoreCounter.score += 350;
                     }
                 }
             }
