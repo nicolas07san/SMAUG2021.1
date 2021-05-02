@@ -81,6 +81,10 @@ public class GameScreen extends BaseScreen{
 
         rocks.removeAll(rocksToRemove);
 
+        if(player.isDead()){
+            main.setScreen(new GameOverScreen(main, ScoreCounter.score));
+        }
+
         //Render entities
         Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

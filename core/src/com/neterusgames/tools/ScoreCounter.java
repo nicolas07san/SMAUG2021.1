@@ -1,14 +1,13 @@
 package com.neterusgames.tools;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ScoreCounter {
 
-    static int score = 0;
+    public static int score = 0;
     private BitmapFont font;
 
     public ScoreCounter() {
