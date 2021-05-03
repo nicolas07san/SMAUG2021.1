@@ -91,8 +91,6 @@ public class GameScreen extends BaseScreen{
 
         main.batch.begin();
 
-        main.scrollingBackground.updateAndRender(delta, main.batch);
-
         for(Rock rock : rocks){
             rock.render(main.batch);
         }
@@ -104,13 +102,13 @@ public class GameScreen extends BaseScreen{
 
         scoreCounter.render(main.batch);
 
-        System.out.println(player.getClass());
+        System.out.println("Game Screen Running");
 
         main.batch.end();
     }
 
     public void dispose() {
-        main.batch.dispose();
+        super.dispose();
     }
 
 }

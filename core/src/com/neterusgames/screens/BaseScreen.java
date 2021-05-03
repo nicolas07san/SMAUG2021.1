@@ -18,7 +18,6 @@ public abstract class BaseScreen implements Screen {
     }
 
     public void render(float delta) {
-
     }
 
     public void resize(int width, int height) {
@@ -38,7 +37,7 @@ public abstract class BaseScreen implements Screen {
     }
 
     public void dispose() {
-
+        main.batch.dispose();
     }
 
     public void drawButton(Texture textureInactive, Texture textureActive , int textureX, int textureY,

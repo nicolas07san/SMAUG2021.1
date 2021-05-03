@@ -33,8 +33,6 @@ public class HowToPlayScreen extends BaseScreen{
 
         main.batch.begin();
 
-        main.scrollingBackground.updateAndRender(delta, main.batch);
-
         // backButton logic
         drawButton(backButtonInactive, backButtonActive, backButtonX, backButtonY, new MainMenuScreen(main),
                 main, false);
@@ -42,8 +40,13 @@ public class HowToPlayScreen extends BaseScreen{
         main.batch.draw(banner, Gdx.graphics.getWidth()/2f - banner.getWidth()/2f,
                 Gdx.graphics.getHeight() - banner.getHeight() - 20);
 
+        System.out.println("H2P Screen Running");
+
         main.batch.end();
 
     }
 
+    public void dispose() {
+        super.dispose();
+    }
 }

@@ -8,16 +8,15 @@ public class ScrollingBackground {
 
     private final int SPEED = 80;
 
-    private Texture texture;
+    private static final Texture TEXTURE = new Texture("background.png");
     private float y1;
     private float y2;
     private float scale;
 
 
     public ScrollingBackground(){
-        texture = new Texture("background.png");
         y1 = 0;
-        y2 = texture.getHeight();
+        y2 = TEXTURE.getHeight();
         scale = 0;
     }
 
@@ -26,21 +25,21 @@ public class ScrollingBackground {
         y1 -= SPEED*deltaTime;
         y2 -= SPEED*deltaTime;
 
-        if(y1 + texture.getHeight() * scale <= 0){
-            y1 = y2+texture.getHeight()*scale;
+        if(y1 + TEXTURE.getHeight() * scale <= 0){
+            y1 = y2+ TEXTURE.getHeight()*scale;
         }
-        if(y2 + texture.getHeight() * scale <= 0){
-            y2 = y1+texture.getHeight()*scale;
+        if(y2 + TEXTURE.getHeight() * scale <= 0){
+            y2 = y1+ TEXTURE.getHeight()*scale;
         }
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(texture,0,y1, Gdx.graphics.getWidth(), texture.getHeight()*scale);
-        batch.draw(texture,0,y2, Gdx.graphics.getWidth(), texture.getHeight()*scale);
+        batch.draw(TEXTURE,0,y1, Gdx.graphics.getWidth(), TEXTURE.getHeight()*scale);
+        batch.draw(TEXTURE,0,y2, Gdx.graphics.getWidth(), TEXTURE.getHeight()*scale);
     }
 
     public void resize(int width){
-        scale = width / texture.getWidth();
+        scale = width / TEXTURE.getWidth();
     }
 
     public void updateAndRender(float deltaTime, SpriteBatch batch){

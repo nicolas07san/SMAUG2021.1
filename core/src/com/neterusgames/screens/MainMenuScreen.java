@@ -2,7 +2,6 @@ package com.neterusgames.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,25 +10,25 @@ import com.neterusgames.game.Main;
 
 public class MainMenuScreen extends BaseScreen {
 
-    private final Texture playButtonInactive;
-    private final Texture playButtonActive;
-    private int playButtonX;
-    private int playButtonY;
+    private final static Texture PLAY_BUTTON_INACTIVE = new Texture("buttons/play-inactive.png");
+    private final static Texture PLAY_BUTTON_ACTIVE = new Texture("buttons/play-active.png");
+    private final static int PLAY_BUTTON_X = Main.WIDTH/2 - (PLAY_BUTTON_INACTIVE.getWidth()*Main.SCALE)/2;
+    private final static int PLAY_BUTTON_Y = 150;;
 
-    private final Texture h2PlayButtonInactive;
-    private final Texture h2PlayButtonActive;
-    private int h2PlayButtonX;
-    private int h2PlayButtonY;
+    private final static Texture H2PLAY_BUTTON_INACTIVE = new Texture("buttons/h2p-inactive.png");
+    private final static Texture H2PLAY_BUTTON_ACTIVE = new Texture("buttons/h2p-active.png");
+    private final static int H2PLAY_BUTTON_X = Main.WIDTH/2 - (H2PLAY_BUTTON_INACTIVE.getWidth()*Main.SCALE)/2;
+    private final static int H2PLAY_BUTTON_Y = 100;
 
-    private final Texture creditsButtonInactive;
-    private final Texture creditsButtonActive;
-    private int creditsButtonX;
-    private int creditsButtonY;
+    private final static Texture CREDITS_BUTTON_INACTIVE = new Texture("buttons/credits-inactive.png");
+    private final static Texture CREDITS_BUTTON_ACTIVE = new Texture("buttons/credits-active.png");
+    private final static int CREDITS_BUTTON_X = Main.WIDTH/2 - (CREDITS_BUTTON_INACTIVE.getWidth()*Main.SCALE)/2;
+    private final static int CREDITS_BUTTON_Y = 50;
 
-    private final Texture exitButtonInactive;
-    private final Texture exitButtonActive;
-    private int exitButtonX;
-    private int exitButtonY;
+    private final static Texture EXIT_BUTTON_INACTIVE = new Texture("buttons/exit-inactive.png");;
+    private final static Texture EXIT_BUTTON_ACTIVE = new Texture("buttons/exit-active.png");;
+    private final static int EXIT_BUTTON_X = Main.WIDTH - (EXIT_BUTTON_INACTIVE.getWidth()*Main.SCALE) - 20;;
+    private final static int EXIT_BUTTON_Y = 50;;
 
     private int highscore;
     private BitmapFont font;
@@ -42,30 +41,6 @@ public class MainMenuScreen extends BaseScreen {
 
         font = new BitmapFont(Gdx.files.internal("fonts/scorefont.fnt"));
 
-        //playButton Images
-        playButtonInactive = new Texture("buttons/play-inactive.png");
-        playButtonActive = new Texture("buttons/play-active.png");
-        playButtonX = Main.WIDTH/2 - (playButtonInactive.getWidth()*SCALE)/2;
-        playButtonY = 150;
-
-        //h2PlayButton Images
-        h2PlayButtonInactive = new Texture("buttons/h2p-inactive.png");
-        h2PlayButtonActive = new Texture("buttons/h2p-active.png");
-        h2PlayButtonX = Main.WIDTH/2 - (h2PlayButtonInactive.getWidth()*SCALE)/2;
-        h2PlayButtonY = 100;
-
-        //creditsButton Images
-        creditsButtonInactive = new Texture("buttons/credits-inactive.png");
-        creditsButtonActive = new Texture("buttons/credits-active.png");
-        creditsButtonX = Main.WIDTH/2 - (creditsButtonInactive.getWidth()*SCALE)/2;
-        creditsButtonY = 50;
-
-        // exitButton Images
-        exitButtonInactive = new Texture("buttons/exit-inactive.png");
-        exitButtonActive = new Texture("buttons/exit-active.png");
-        exitButtonX = Main.WIDTH - (exitButtonInactive.getWidth()*SCALE) - 20;
-        exitButtonY = 50;
-
     }
 
     public void render(float delta) {
@@ -74,28 +49,34 @@ public class MainMenuScreen extends BaseScreen {
 
         main.batch.begin();
 
-        main.scrollingBackground.updateAndRender(delta, main.batch);
+        super.render(delta);
 
         GlyphLayout layout = new GlyphLayout(font, "" + highscore);
         font.draw(main.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2,
                 300);
 
         //playButton logic
-        drawButton(playButtonInactive, playButtonActive, playButtonX, playButtonY,new GameScreen(main), main,
-                false);
+        drawButton(PLAY_BUTTON_INACTIVE, PLAY_BUTTON_ACTIVE, PLAY_BUTTON_X, PLAY_BUTTON_Y,
+                new GameScreen(main), main, false);
 
         //h2pButton logic
-        drawButton(h2PlayButtonInactive, h2PlayButtonActive, h2PlayButtonX, h2PlayButtonY, new HowToPlayScreen(main),
-                main,false);
+        drawButton(H2PLAY_BUTTON_INACTIVE, H2PLAY_BUTTON_ACTIVE, H2PLAY_BUTTON_X, H2PLAY_BUTTON_Y,
+                new HowToPlayScreen(main), main,false);
 
         //creditsButton logic
-        drawButton(creditsButtonInactive, creditsButtonActive, creditsButtonX, creditsButtonY, new CreditsScreen(main),
-                main,false);
+        drawButton(CREDITS_BUTTON_INACTIVE, CREDITS_BUTTON_ACTIVE, CREDITS_BUTTON_X, CREDITS_BUTTON_Y,
+                new CreditsScreen(main), main,false);
 
         //exitButton logic
-        drawButton(exitButtonInactive, exitButtonActive,exitButtonX,exitButtonY,new MainMenuScreen(main),main,true);
+        drawButton(EXIT_BUTTON_INACTIVE, EXIT_BUTTON_ACTIVE, EXIT_BUTTON_X, EXIT_BUTTON_Y,
+                new MainMenuScreen(main),main,true);
+
+        System.out.println("Main Menu Screen Running");
 
         main.batch.end();
     }
 
+    public void dispose() {
+        super.dispose();
+    }
 }

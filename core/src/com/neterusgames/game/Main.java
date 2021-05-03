@@ -17,13 +17,11 @@ public class Main extends Game {
 	private SplashWorker splashWorker;
 
 	public SpriteBatch batch;
-	public ScrollingBackground scrollingBackground;
 	
 	@Override
 	public void create () {
 		splashWorker.closeSplashScreen();
 		batch = new SpriteBatch();
-		scrollingBackground = new ScrollingBackground();
 		setScreen(new MainMenuScreen(this));
 
 	}
@@ -45,7 +43,6 @@ public class Main extends Game {
 	}
 
 	public void resize(int width, int height){
-		this.scrollingBackground.resize(width);
 		super.resize(width,height);
 	}
 }

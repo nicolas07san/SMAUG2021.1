@@ -2,6 +2,7 @@ package com.neterusgames.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,14 +14,15 @@ public class Player extends BaseEntity{
 
     private float timer;
     private float shootTimer;
-
     private float frameTime = 0.25f;
     private float elapsedTime;
 
-    private Animation <TextureRegion> animation;
+    private  Animation <TextureRegion> animation;
 
     private ArrayList<Bullet> bullets;
     private ArrayList<Bullet> bulletsToRemove;
+
+    private Sound bulletSound;
 
     public Player(float x, float y){
         super(x, y);
@@ -28,6 +30,8 @@ public class Player extends BaseEntity{
         if(getTexture() == null){
             setTexture(new Texture("entities/player.png"));
         }
+
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
 
         setWidth(32);
         setHeight(32);
@@ -49,6 +53,7 @@ public class Player extends BaseEntity{
         timer += deltaTime;
         if(timer >= shootTimer){
             timer = 0;
+            bulletSound.play(0.5f,1.5f,0.0f);
             int offset = 4;
             bullets.add(new Bullet(getX() - offset,getY() + getHeight()/2f,
                     "entities/player-bullet.png",1f,0.55f));
