@@ -1,57 +1,52 @@
 package com.neterusgames.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.neterusgames.game.Main;
 
 public class MainMenuScreen extends BaseScreen {
 
+    private final Texture playButtonInactive;
+    private final Texture playButtonActive;
     private int playButtonX;
     private int playButtonY;
 
-    private int scoreButtonX;
-    private int scoreButtonY;
-
+    private final Texture h2PlayButtonInactive;
+    private final Texture h2PlayButtonActive;
     private int h2PlayButtonX;
     private int h2PlayButtonY;
 
+    private final Texture creditsButtonInactive;
+    private final Texture creditsButtonActive;
     private int creditsButtonX;
     private int creditsButtonY;
 
+    private final Texture exitButtonInactive;
+    private final Texture exitButtonActive;
     private int exitButtonX;
     private int exitButtonY;
 
-    private final Texture playButtonInactive;
-    private final Texture playButtonActive;
-
-    private final Texture scoreButtonInactive;
-    private final Texture scoreButtonActive;
-
-    private final Texture h2PlayButtonInactive;
-    private final Texture h2PlayButtonActive;
-
-    private final Texture creditsButtonInactive;
-    private final Texture creditsButtonActive;
-
-    private final Texture exitButtonInactive;
-    private final Texture exitButtonActive;
+    private int highscore;
+    private BitmapFont font;
 
     public MainMenuScreen(Main main){
         super(main);
+
+        Preferences pref = Gdx.app.getPreferences("neterusgames.shmup");
+        highscore = pref.getInteger("highscore");
+
+        font = new BitmapFont(Gdx.files.internal("fonts/scorefont.fnt"));
 
         //playButton Images
         playButtonInactive = new Texture("buttons/play-inactive.png");
         playButtonActive = new Texture("buttons/play-active.png");
         playButtonX = Main.WIDTH/2 - (playButtonInactive.getWidth()*SCALE)/2;
-        playButtonY = 200;
-
-        //scoreButton Images
-        scoreButtonInactive = new Texture("buttons/highscore-inactive.png");
-        scoreButtonActive = new Texture("buttons/highscore-active.png");
-        scoreButtonX = Main.WIDTH/2 - (scoreButtonInactive.getWidth()*SCALE)/2;
-        scoreButtonY = 150;
+        playButtonY = 150;
 
         //h2PlayButton Images
         h2PlayButtonInactive = new Texture("buttons/h2p-inactive.png");
@@ -81,12 +76,12 @@ public class MainMenuScreen extends BaseScreen {
 
         main.scrollingBackground.updateAndRender(delta, main.batch);
 
+        GlyphLayout layout = new GlyphLayout(font, "" + highscore);
+        font.draw(main.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2,
+                300);
+
         //playButton logic
         drawButton(playButtonInactive, playButtonActive, playButtonX, playButtonY,new GameScreen(main), main,
-                false);
-
-        //scoreButton logic
-        drawButton(scoreButtonInactive, scoreButtonActive, scoreButtonX, scoreButtonY, new ScoreScreen(main), main,
                 false);
 
         //h2pButton logic

@@ -21,6 +21,8 @@ public class GameOverScreen extends BaseScreen{
     private int playButtonX;
     private int playButtonY;
 
+    private Texture banner;
+
     GameOverScreen(Main main, int score) {
         super(main);
         this.score = score;
@@ -44,6 +46,8 @@ public class GameOverScreen extends BaseScreen{
         playButtonX = Main.WIDTH - (playButtonInactive.getWidth()*SCALE) - 20;
         playButtonY = 50;
 
+        banner = new Texture("banners/gameover-banner.png");
+
     }
 
     public void render(float delta){
@@ -54,6 +58,7 @@ public class GameOverScreen extends BaseScreen{
 
         main.scrollingBackground.updateAndRender(delta,main.batch);
 
+
         //playButton logic
         drawButton(playButtonInactive, playButtonActive, playButtonX, playButtonY, new GameScreen(main),
                 main, false);
@@ -61,6 +66,9 @@ public class GameOverScreen extends BaseScreen{
         //backButton logic
         drawButton(backButtonInactive,backButtonActive,backButtonX,backButtonY, new MainMenuScreen(main),
                 main,false);
+
+        main.batch.draw(banner, Gdx.graphics.getWidth()/2f - banner.getWidth()/2f,
+                Gdx.graphics.getHeight() - banner.getHeight() - 20);
 
         main.batch.end();
     }

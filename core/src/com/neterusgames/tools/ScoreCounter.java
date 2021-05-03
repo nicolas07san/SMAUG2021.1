@@ -11,8 +11,8 @@ public class ScoreCounter {
     private BitmapFont font;
 
     public ScoreCounter() {
-
-        font = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"));
+        score = 0;
+        font = new BitmapFont(Gdx.files.internal("fonts/scorefont.fnt"));
 
     }
 

@@ -10,12 +10,15 @@ public class CreditsScreen extends BaseScreen{
 
     private Texture backButtonInactive;
     private Texture backButtonActive;
-
     private int backButtonX;
     private int backButtonY;
 
+    private Texture banner;
+
     CreditsScreen(Main main) {
         super(main);
+
+        banner = new Texture("banners/credits-banner.png");
 
         backButtonInactive = new Texture("buttons/back-inactive.png");
         backButtonActive = new Texture("buttons/back-active.png");
@@ -35,6 +38,9 @@ public class CreditsScreen extends BaseScreen{
         // backButton logic
         drawButton(backButtonInactive, backButtonActive, backButtonX, backButtonY, new MainMenuScreen(main),
                 main, false);
+
+        main.batch.draw(banner,Gdx.graphics.getWidth()/2f - banner.getWidth()/2f,
+                Gdx.graphics.getHeight() - banner.getHeight() - 20);
 
         main.batch.end();
     }
