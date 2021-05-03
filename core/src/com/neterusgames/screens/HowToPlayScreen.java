@@ -40,8 +40,6 @@ public class HowToPlayScreen extends BaseScreen{
         main.batch.draw(banner, Gdx.graphics.getWidth()/2f - banner.getWidth()/2f,
                 Gdx.graphics.getHeight() - banner.getHeight() - 20);
 
-        System.out.println("H2P Screen Running");
-
         main.batch.end();
 
     }

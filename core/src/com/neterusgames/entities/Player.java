@@ -77,6 +77,7 @@ public class Player extends BaseEntity{
             shoot(deltaTime);
         }
 
+
         if(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)){
             setY(getY() + (getSpeed()*deltaTime));
         }
@@ -111,7 +112,6 @@ public class Player extends BaseEntity{
     }
 
     public void render(SpriteBatch batch) {
-
         for (Bullet bullet : bullets) {
             bullet.render(batch);
         }
@@ -122,6 +122,10 @@ public class Player extends BaseEntity{
 
     public ArrayList<Bullet> getBullets(){
         return bullets;
+    }
+
+    public void dispose(){
+        bulletSound.dispose();
     }
 
 }

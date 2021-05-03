@@ -102,13 +102,12 @@ public class GameScreen extends BaseScreen{
 
         scoreCounter.render(main.batch);
 
-        System.out.println("Game Screen Running");
-
         main.batch.end();
     }
 
     public void dispose() {
         super.dispose();
+        player.dispose();
     }
 
 }

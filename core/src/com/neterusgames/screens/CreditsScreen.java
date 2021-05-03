@@ -40,8 +40,6 @@ public class CreditsScreen extends BaseScreen{
         main.batch.draw(banner,Gdx.graphics.getWidth()/2f - banner.getWidth()/2f,
                 Gdx.graphics.getHeight() - banner.getHeight() - 20);
 
-        System.out.println("Credits Scren Running");
-
         main.batch.end();
     }
 

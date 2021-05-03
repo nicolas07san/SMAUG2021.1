@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.neterusgames.game.Main;
 
@@ -30,14 +29,17 @@ public class MainMenuScreen extends BaseScreen {
     private final static int EXIT_BUTTON_X = Main.WIDTH - (EXIT_BUTTON_INACTIVE.getWidth()*Main.SCALE) - 20;
     private final static int EXIT_BUTTON_Y = 50;;
 
-    private int  highscore;
-    private final static BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/scorefont.fnt"));
+    private int highscore;
+
+    private GlyphLayout layout;
 
     public MainMenuScreen(Main main){
         super(main);
 
         Preferences pref = Gdx.app.getPreferences("neterusgames.shmup");
         highscore = pref.getInteger("highscore");
+
+        layout = new GlyphLayout(SCORE_FONT, "" + highscore);
 
     }
 
@@ -47,11 +49,8 @@ public class MainMenuScreen extends BaseScreen {
 
         main.batch.begin();
 
-        super.render(delta);
-
-        GlyphLayout layout = new GlyphLayout(font, "" + highscore);
-        font.draw(main.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2,
-                300);
+        //SCORE_FONT.draw(main.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2,
+        //        300);
 
         //playButton logic
         drawButton(PLAY_BUTTON_INACTIVE, PLAY_BUTTON_ACTIVE, PLAY_BUTTON_X, PLAY_BUTTON_Y,
@@ -68,8 +67,6 @@ public class MainMenuScreen extends BaseScreen {
         //exitButton logic
         drawButton(EXIT_BUTTON_INACTIVE, EXIT_BUTTON_ACTIVE, EXIT_BUTTON_X, EXIT_BUTTON_Y,
                 new MainMenuScreen(main),main,true);
-
-        System.out.println("Main Menu Screen Running");
 
         main.batch.end();
     }
