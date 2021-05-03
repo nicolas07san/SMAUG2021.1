@@ -25,21 +25,19 @@ public class MainMenuScreen extends BaseScreen {
     private final static int CREDITS_BUTTON_X = Main.WIDTH/2 - (CREDITS_BUTTON_INACTIVE.getWidth()*Main.SCALE)/2;
     private final static int CREDITS_BUTTON_Y = 50;
 
-    private final static Texture EXIT_BUTTON_INACTIVE = new Texture("buttons/exit-inactive.png");;
-    private final static Texture EXIT_BUTTON_ACTIVE = new Texture("buttons/exit-active.png");;
-    private final static int EXIT_BUTTON_X = Main.WIDTH - (EXIT_BUTTON_INACTIVE.getWidth()*Main.SCALE) - 20;;
+    private final static Texture EXIT_BUTTON_INACTIVE = new Texture("buttons/exit-inactive.png");
+    private final static Texture EXIT_BUTTON_ACTIVE = new Texture("buttons/exit-active.png");
+    private final static int EXIT_BUTTON_X = Main.WIDTH - (EXIT_BUTTON_INACTIVE.getWidth()*Main.SCALE) - 20;
     private final static int EXIT_BUTTON_Y = 50;;
 
-    private int highscore;
-    private BitmapFont font;
+    private int  highscore;
+    private final static BitmapFont font = new BitmapFont(Gdx.files.internal("fonts/scorefont.fnt"));
 
     public MainMenuScreen(Main main){
         super(main);
 
         Preferences pref = Gdx.app.getPreferences("neterusgames.shmup");
         highscore = pref.getInteger("highscore");
-
-        font = new BitmapFont(Gdx.files.internal("fonts/scorefont.fnt"));
 
     }
 
