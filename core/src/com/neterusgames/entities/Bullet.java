@@ -34,6 +34,10 @@ public class Bullet extends BaseEntity {
         super.render(batch);
     }
 
+    public void dispose(){
+        getTexture().dispose();
+    }
+
     public boolean isRemove() {
         return remove;
     }

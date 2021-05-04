@@ -64,5 +64,6 @@ public class GameOverScreen extends BaseScreen{
         BACK_BUTTON_ACTIVE.dispose();
         BACK_BUTTON_INACTIVE.dispose();
 
+        System.out.println("Game over Screen Disposed");
     }
 }

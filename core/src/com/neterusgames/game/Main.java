@@ -33,6 +33,7 @@ public class Main extends Game {
 
 	public void dispose () {
 		batch.dispose();
+		this.getScreen().dispose();
 	}
 
 	public SplashWorker getSplashWorker() {

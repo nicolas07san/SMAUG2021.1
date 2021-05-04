@@ -107,6 +107,7 @@ public class Player extends BaseEntity{
         moveRectangle(getCenterX(), getCenterY());
 
         bullets.removeAll(bulletsToRemove);
+        bulletsToRemove.clear();
 
         elapsedTime += deltaTime;
     }
@@ -126,6 +127,9 @@ public class Player extends BaseEntity{
 
     public void dispose(){
         bulletSound.dispose();
+        for(Bullet bullet : bullets){
+            bullet.dispose();
+        }
     }
 
 }

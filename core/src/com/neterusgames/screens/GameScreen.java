@@ -50,6 +50,7 @@ public class GameScreen extends BaseScreen{
 
         if(player.isDead()){
             main.setScreen(new GameOverScreen(main, ScoreCounter.score));
+            dispose();
         }
 
         //Render entities
@@ -71,6 +72,8 @@ public class GameScreen extends BaseScreen{
     public void dispose() {
         super.dispose();
         player.dispose();
+        scoreCounter.dispose();
+        System.out.println("Game Screen Disposed");
     }
 
 }

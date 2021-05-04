@@ -96,5 +96,7 @@ public class MainMenuScreen extends BaseScreen {
         BANNER.dispose();
         LOGO.dispose();
 
+        System.out.println("Menu Screen Disposed");
+
     }
 }

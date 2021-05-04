@@ -3,13 +3,11 @@ package com.neterusgames.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.neterusgames.game.Main;
 
 public abstract class BaseScreen implements Screen {
 
     final static int SCALE = Main.SCALE;
-    public final static BitmapFont SCORE_FONT = new BitmapFont(Gdx.files.internal("fonts/scorefont.fnt"));
 
     Main main;
     BaseScreen(Main main){

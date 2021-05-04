@@ -66,6 +66,7 @@ public class LurkerSpawn {
         }
 
         lurkers.removeAll(lurkersToRemove);
+        lurkersToRemove.clear();
     }
 
     public void render(SpriteBatch batch){

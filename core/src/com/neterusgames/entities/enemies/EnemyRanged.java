@@ -42,6 +42,7 @@ public class EnemyRanged extends BaseEntity {
             }
         }
         bullets.removeAll(bulletsToRemove);
+        bulletsToRemove.clear();
 
         shoot(deltaTime);
 
@@ -72,5 +73,11 @@ public class EnemyRanged extends BaseEntity {
 
     public ArrayList<Bullet> getBullets(){
         return bullets;
+    }
+
+    public void dispose(){
+        for(Bullet bullet:bullets){
+            bullet.dispose();
+        }
     }
 }

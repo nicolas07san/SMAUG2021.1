@@ -65,6 +65,7 @@ public class TankSpawn {
         }
 
         tanks.removeAll(tanksToRemove);
+        tanksToRemove.clear();
     }
 
     public void render(SpriteBatch batch){

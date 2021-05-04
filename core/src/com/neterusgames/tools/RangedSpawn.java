@@ -72,6 +72,7 @@ public class RangedSpawn {
             }
         }
         rangers.removeAll(rangersToRemove);
+        rangersToRemove.clear();
     }
 
     public void render(SpriteBatch batch){

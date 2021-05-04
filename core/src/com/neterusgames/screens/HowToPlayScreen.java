@@ -40,6 +40,7 @@ public class HowToPlayScreen extends BaseScreen{
         BACK_BUTTON_INACTIVE.dispose();
         BACK_BUTTON_ACTIVE.dispose();
         BANNER.dispose();
+        System.out.println("H2P Screen Disposed");
 
     }
 }

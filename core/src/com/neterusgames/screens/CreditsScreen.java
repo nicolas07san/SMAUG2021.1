@@ -39,5 +39,6 @@ public class CreditsScreen extends BaseScreen{
         BACK_BUTTON_INACTIVE.dispose();
         BACK_BUTTON_ACTIVE.dispose();
         BANNER.dispose();
+        System.out.println("Credits Screen Disposed");
     }
 }
