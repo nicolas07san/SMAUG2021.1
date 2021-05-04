@@ -27,11 +27,14 @@ public class MainMenuScreen extends BaseScreen {
     private final static Texture EXIT_BUTTON_INACTIVE = new Texture("buttons/exit-inactive.png");
     private final static Texture EXIT_BUTTON_ACTIVE = new Texture("buttons/exit-active.png");
     private final static int EXIT_BUTTON_X = Main.WIDTH - (EXIT_BUTTON_INACTIVE.getWidth()*Main.SCALE) - 20;
-    private final static int EXIT_BUTTON_Y = 50;;
+    private final static int EXIT_BUTTON_Y = 50;
+
+    private final static Texture BANNER = new Texture("banners/mainmenu-banner.png");
+    private final static Texture LOGO =  new Texture("banners/logo.png");
 
     private int highscore;
 
-    private GlyphLayout layout;
+    //private GlyphLayout layout;
 
     public MainMenuScreen(Main main){
         super(main);
@@ -39,7 +42,7 @@ public class MainMenuScreen extends BaseScreen {
         Preferences pref = Gdx.app.getPreferences("neterusgames.shmup");
         highscore = pref.getInteger("highscore");
 
-        layout = new GlyphLayout(SCORE_FONT, "" + highscore);
+        //layout = new GlyphLayout(SCORE_FONT, "" + highscore);
 
     }
 
@@ -48,6 +51,11 @@ public class MainMenuScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         main.batch.begin();
+
+        main.batch.draw(BANNER,Gdx.graphics.getWidth()/2f - BANNER.getWidth()/2f,
+                Gdx.graphics.getHeight() - BANNER.getHeight() - 20);
+
+        main.batch.draw(LOGO,20,20,LOGO.getWidth()*SCALE,LOGO.getHeight()*SCALE);
 
         //SCORE_FONT.draw(main.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2,
         //        300);
