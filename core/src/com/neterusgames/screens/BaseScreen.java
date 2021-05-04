@@ -8,7 +8,7 @@ import com.neterusgames.game.Main;
 
 public abstract class BaseScreen implements Screen {
 
-    final int SCALE = Main.SCALE;
+    final static int SCALE = Main.SCALE;
     public final static BitmapFont SCORE_FONT = new BitmapFont(Gdx.files.internal("fonts/scorefont.fnt"));
 
     Main main;
@@ -39,7 +39,7 @@ public abstract class BaseScreen implements Screen {
     }
 
     public void dispose() {
-        main.batch.dispose();
+
     }
 
     public void drawButton(Texture textureInactive, Texture textureActive , int textureX, int textureY,
@@ -59,6 +59,7 @@ public abstract class BaseScreen implements Screen {
                 }
                 else{
                     main.setScreen(screen);
+                    this.dispose();
                 }
             }
 

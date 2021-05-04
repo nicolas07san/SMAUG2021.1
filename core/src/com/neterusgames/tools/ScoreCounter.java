@@ -4,12 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.neterusgames.game.Main;
 import com.neterusgames.screens.BaseScreen;
 
 public class ScoreCounter {
 
     public static int score = 0;
-    //private final static BitmapFont SCORE_FONT = new BitmapFont(Gdx.files.internal("fonts/scorefont.fnt"));
 
     public ScoreCounter() {
         score = 0;

@@ -1,29 +1,21 @@
 package com.neterusgames.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.neterusgames.game.Main;
 
 public class HowToPlayScreen extends BaseScreen{
 
-    private Texture backButtonInactive;
-    private Texture backButtonActive;
-    private int backButtonX;
-    private int backButtonY;
+    private final Texture BACK_BUTTON_INACTIVE = new Texture("buttons/back-inactive.png");
+    private final Texture BACK_BUTTON_ACTIVE = new Texture("buttons/back-active.png");
+    private final int BACK_BUTTON_X = 20;
+    private final int BACK_BUTTON_Y = 50;
 
-    private Texture banner;
+    private final Texture BANNER = new Texture("banners/h2p-banner.png");
 
     HowToPlayScreen(Main main) {
         super(main);
-
-        backButtonInactive = new Texture("buttons/back-inactive.png");
-        backButtonActive = new Texture("buttons/back-active.png");
-        backButtonX = 20;
-        backButtonY = 50;
-
-        banner = new Texture("banners/h2p-banner.png");
     }
 
 
@@ -34,17 +26,20 @@ public class HowToPlayScreen extends BaseScreen{
         main.batch.begin();
 
         // backButton logic
-        drawButton(backButtonInactive, backButtonActive, backButtonX, backButtonY, new MainMenuScreen(main),
+        drawButton(BACK_BUTTON_INACTIVE, BACK_BUTTON_ACTIVE, BACK_BUTTON_X, BACK_BUTTON_Y, new MainMenuScreen(main),
                 main, false);
 
-        main.batch.draw(banner, Gdx.graphics.getWidth()/2f - banner.getWidth()/2f,
-                Gdx.graphics.getHeight() - banner.getHeight() - 20);
+        main.batch.draw(BANNER, Gdx.graphics.getWidth()/2f - BANNER.getWidth()/2f,
+                Gdx.graphics.getHeight() - BANNER.getHeight() - 20);
 
         main.batch.end();
 
     }
 
     public void dispose() {
-        super.dispose();
+        BACK_BUTTON_INACTIVE.dispose();
+        BACK_BUTTON_ACTIVE.dispose();
+        BANNER.dispose();
+
     }
 }

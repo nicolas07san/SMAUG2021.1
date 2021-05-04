@@ -32,8 +32,9 @@ public class Main extends Game {
 	}
 
 	public void dispose () {
-
+		batch.dispose();
 	}
+
 	public SplashWorker getSplashWorker() {
 		return splashWorker;
 	}

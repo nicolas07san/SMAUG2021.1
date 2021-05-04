@@ -8,24 +8,22 @@ import com.neterusgames.game.Main;
 
 public class GameOverScreen extends BaseScreen{
 
-    private int score;
     private int highscore;
 
-    private Texture backButtonInactive;
-    private Texture backButtonActive;
-    private int backButtonX;
-    private int backButtonY;
+    private final Texture BACK_BUTTON_INACTIVE =  new Texture("buttons/back-inactive.png");
+    private final Texture BACK_BUTTON_ACTIVE = new Texture("buttons/back-active.png");
+    private final int BACK_BUTTON_X = 20;
+    private final int BACK_BUTTON_Y = 50;
 
-    private Texture playButtonInactive;
-    private Texture playButtonActive;
-    private int playButtonX;
-    private int playButtonY;
+    private final Texture PLAY_BUTTON_INACTIVE = new Texture("buttons/again-inactive.png");;
+    private final Texture PLAY_BUTTON_ACTIVE = new Texture("buttons/again-active.png");;
+    private final int PLAY_BUTTON_X = Main.WIDTH - (PLAY_BUTTON_INACTIVE.getWidth()*SCALE) - 20;
+    private final int PLAY_BUTTON_Y = 50;
 
-    private Texture banner;
+    private final Texture BANNER = new Texture("banners/gameover-banner.png");
 
     GameOverScreen(Main main, int score) {
         super(main);
-        this.score = score;
 
         Preferences pref = Gdx.app.getPreferences("neterusgames.shmup");
         highscore = pref.getInteger("highscore",0);
@@ -36,18 +34,6 @@ public class GameOverScreen extends BaseScreen{
             pref.flush();
         }
 
-        backButtonInactive =  new Texture("buttons/back-inactive.png");
-        backButtonActive = new Texture("buttons/back-active.png");
-        backButtonX = 20;
-        backButtonY = 50;
-
-        playButtonInactive = new Texture("buttons/again-inactive.png");
-        playButtonActive = new Texture("buttons/again-active.png");
-        playButtonX = Main.WIDTH - (playButtonInactive.getWidth()*SCALE) - 20;
-        playButtonY = 50;
-
-        banner = new Texture("banners/gameover-banner.png");
-
     }
 
     public void render(float delta){
@@ -57,20 +43,26 @@ public class GameOverScreen extends BaseScreen{
         main.batch.begin();
 
         //playButton logic
-        drawButton(playButtonInactive, playButtonActive, playButtonX, playButtonY, new GameScreen(main),
+        drawButton(PLAY_BUTTON_INACTIVE, PLAY_BUTTON_ACTIVE, PLAY_BUTTON_X, PLAY_BUTTON_Y, new GameScreen(main),
                 main, false);
 
         //backButton logic
-        drawButton(backButtonInactive,backButtonActive,backButtonX,backButtonY, new MainMenuScreen(main),
+        drawButton(BACK_BUTTON_INACTIVE, BACK_BUTTON_ACTIVE, BACK_BUTTON_X, BACK_BUTTON_Y, new MainMenuScreen(main),
                 main,false);
 
-        main.batch.draw(banner, Gdx.graphics.getWidth()/2f - banner.getWidth()/2f,
-                Gdx.graphics.getHeight() - banner.getHeight() - 20);
+        main.batch.draw(BANNER, Gdx.graphics.getWidth()/2f - BANNER.getWidth()/2f,
+                Gdx.graphics.getHeight() - BANNER.getHeight() - 20);
 
         main.batch.end();
     }
 
     public void dispose(){
-        super.dispose();
+
+        PLAY_BUTTON_ACTIVE.dispose();
+        PLAY_BUTTON_INACTIVE.dispose();
+
+        BACK_BUTTON_ACTIVE.dispose();
+        BACK_BUTTON_INACTIVE.dispose();
+
     }
 }
