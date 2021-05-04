@@ -29,7 +29,11 @@ public class LurkerSpawn {
 
     }
 
-    public void update(float deltaTime){
+    public void update(float deltaTime, float difficult){
+        if(minTimer >= 0.3f){
+            maxTimer = maxTimer - difficult;
+            minTimer = minTimer - difficult;
+        }
 
         timer -= deltaTime;
         if(timer <= 0){
@@ -51,7 +55,7 @@ public class LurkerSpawn {
         for(EnemyLurker lurker : lurkers){
             for(Bullet bullet :  player.getBullets()){
                 if(bullet.getRectangle().overlaps(lurker.getRectangle())){
-                    lurker.decreaseHealth(bullet.getDamage()/2);
+                    lurker.decreaseHealth(bullet.getDamage());
                     bullet.setRemove(true);
                     if(lurker.isDead()){
                         lurkersToRemove.add(lurker);

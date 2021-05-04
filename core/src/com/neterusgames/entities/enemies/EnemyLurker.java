@@ -21,14 +21,11 @@ public class EnemyLurker extends BaseEntity {
 
     public void update(float deltaTime) {
         setX(getX() - getSpeed() * deltaTime);
-        setY(getY() - (getSpeed()/2) * deltaTime);
 
-        if(getY() <= -getHeight()){
-            remove = true;
-        }
         if(getX() <= -getWidth()){
             remove = true;
         }
+
         moveRectangle(getCenterX(),getCenterY());
     }
 

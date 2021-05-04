@@ -28,7 +28,12 @@ public class TankSpawn {
         timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
     }
 
-    public void update(float deltaTime){
+    public void update(float deltaTime,float difficult){
+        if(minTimer >= 0.3f){
+            maxTimer = maxTimer - difficult;
+            minTimer = minTimer - difficult;
+        }
+
         timer -= deltaTime;
         if(timer <= 0){
             timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
@@ -50,7 +55,7 @@ public class TankSpawn {
             for(Bullet bullet : player.getBullets()){
                 if(bullet.getRectangle().overlaps(tank.getRectangle())){
                     bullet.setRemove(true);
-                    tank.decreaseHealth(bullet.getDamage()/4);
+                    tank.decreaseHealth(bullet.getDamage()/2);
                     if(tank.isDead()){
                         tanksToRemove.add(tank);
                         ScoreCounter.score += 500;

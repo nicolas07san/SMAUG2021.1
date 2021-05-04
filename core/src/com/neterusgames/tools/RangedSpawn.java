@@ -28,7 +28,11 @@ public class RangedSpawn {
         timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
     }
 
-    public void update(float deltaTime){
+    public void update(float deltaTime, float difficult){
+        if(minTimer >= 0.3f){
+            maxTimer = maxTimer - difficult;
+            minTimer = minTimer - difficult;
+        }
 
         timer -= deltaTime;
         if(timer <= 0){
@@ -51,12 +55,13 @@ public class RangedSpawn {
         for(EnemyRanged ranged : rangers){
             for(Bullet bullet : player.getBullets()){
                 if(bullet.getRectangle().overlaps(ranged.getRectangle())){
+
+                    ranged.decreaseHealth(bullet.getDamage()*1.5f);
+                    bullet.setRemove(true);
                     if(ranged.isDead()){
                         rangersToRemove.add(ranged);
                         ScoreCounter.score += 200;
                     }
-                    ranged.decreaseHealth(bullet.getDamage());
-                    bullet.setRemove(true);
                 }
             }
             for(Bullet bullet : ranged.getBullets()){
