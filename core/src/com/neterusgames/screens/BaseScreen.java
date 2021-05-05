@@ -44,6 +44,8 @@ public abstract class BaseScreen implements Screen {
                            BaseScreen screen, Main main, boolean exit){
         this.main = main;
 
+
+
         if(Gdx.input.getX() < textureX + textureInactive.getWidth() * SCALE && Gdx.input.getX() > textureX
                 && Main.HEIGHT - Gdx.input.getY() < textureY + textureInactive.getHeight() * SCALE
                 && Main.HEIGHT - Gdx.input.getY() > textureY){

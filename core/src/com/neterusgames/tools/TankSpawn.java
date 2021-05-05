@@ -62,7 +62,7 @@ public class TankSpawn {
                     if(tank.isDead()){
                         TANKS_TO_REMOVE.add(tank);
                         ScoreCounter.score += 500;
-                        DEATH_SOUND.play(0.5f,1.0f,0.0f);
+                        DEATH_SOUND.play(0.2f,1.0f,0.0f);
                     }
                 }
             }
