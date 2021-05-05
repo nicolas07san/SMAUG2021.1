@@ -1,6 +1,7 @@
 package com.neterusgames.tools;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.neterusgames.entities.Bullet;
 import com.neterusgames.entities.Player;
@@ -16,14 +17,16 @@ public class LurkerSpawn {
     private float timer;
     private float minTimer;
     private float maxTimer;
-    private Player player;
-    private ArrayList<EnemyLurker> lurkers = new ArrayList<>();
-    private ArrayList<EnemyLurker> lurkersToRemove = new ArrayList<>();
+
+    private final Player PLAYER;
+    private final ArrayList<EnemyLurker> LURKERS = new ArrayList<>();
+    private final ArrayList<EnemyLurker> LURKERS_TO_REMOVE = new ArrayList<>();
+    private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/ghostdying.wav"));
 
     public LurkerSpawn (float minTimer, float maxTimer, Player player){
         this.minTimer = minTimer;
         this.maxTimer = maxTimer;
-        this.player = player;
+        this.PLAYER = player;
 
         timer = random.nextFloat() * (maxTimer -  minTimer) + minTimer;
 
@@ -38,41 +41,45 @@ public class LurkerSpawn {
         timer -= deltaTime;
         if(timer <= 0){
             timer =  random.nextFloat() * (maxTimer - minTimer) + minTimer;
-            lurkers.add(new EnemyLurker(Gdx.graphics.getWidth(),
+            LURKERS.add(new EnemyLurker(Gdx.graphics.getWidth(),
                     random.nextInt(Gdx.graphics.getHeight() - 32)));
         }
 
-        for(EnemyLurker lurker : lurkers){
+        for(EnemyLurker lurker : LURKERS){
             lurker.update(deltaTime);
             if(lurker.isRemove()){
-                lurkersToRemove.add(lurker);
+                LURKERS_TO_REMOVE.add(lurker);
             }
-            if(lurker.getRectangle().overlaps(player.getRectangle())){
-                player.decreaseHealth(0.2f);
-                lurkersToRemove.add(lurker);
+            if(lurker.getRectangle().overlaps(PLAYER.getRectangle())){
+                PLAYER.decreaseHealth(0.2f);
+                LURKERS_TO_REMOVE.add(lurker);
             }
         }
-        for(EnemyLurker lurker : lurkers){
-            for(Bullet bullet :  player.getBullets()){
+        for(EnemyLurker lurker : LURKERS){
+            for(Bullet bullet :  PLAYER.getBullets()){
                 if(bullet.getRectangle().overlaps(lurker.getRectangle())){
                     lurker.decreaseHealth(bullet.getDamage());
                     bullet.setRemove(true);
                     if(lurker.isDead()){
-                        lurkersToRemove.add(lurker);
+                        DEATH_SOUND.play(0.2f,1.5f,0.0f);
+                        LURKERS_TO_REMOVE.add(lurker);
                         ScoreCounter.score += 350;
                     }
                 }
             }
         }
-
-        lurkers.removeAll(lurkersToRemove);
-        lurkersToRemove.clear();
+        LURKERS.removeAll(LURKERS_TO_REMOVE);
+        LURKERS_TO_REMOVE.clear();
     }
 
     public void render(SpriteBatch batch){
-        for(EnemyLurker lurker : lurkers){
+        for(EnemyLurker lurker : LURKERS){
             lurker.render(batch);
         }
+    }
+
+    public void dispose(){
+        DEATH_SOUND.dispose();
     }
 
 }

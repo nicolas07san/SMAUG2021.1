@@ -17,12 +17,12 @@ public class Player extends BaseEntity{
     private float frameTime = 0.25f;
     private float elapsedTime;
 
-    private  Animation <TextureRegion> animation;
+    private final Animation <TextureRegion> ANIMATION;
 
-    private ArrayList<Bullet> bullets;
-    private ArrayList<Bullet> bulletsToRemove;
+    private final ArrayList<Bullet> BULLETS;
+    private final ArrayList<Bullet> BULLETS_TO_REMOVE;
 
-    private Sound bulletSound;
+    private final Sound BULLET_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/bowshoot.wav"));;
 
     public Player(float x, float y){
         super(x, y);
@@ -31,8 +31,6 @@ public class Player extends BaseEntity{
             setTexture(new Texture("entities/player.png"));
         }
 
-        bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
-
         setWidth(32);
         setHeight(32);
 
@@ -40,10 +38,10 @@ public class Player extends BaseEntity{
 
         setSpeed(250);
 
-        animation = createAnimation(frameTime);
+        ANIMATION = createAnimation(frameTime);
 
-        bullets = new ArrayList<>();
-        bulletsToRemove = new ArrayList<>();
+        BULLETS = new ArrayList<>();
+        BULLETS_TO_REMOVE = new ArrayList<>();
 
         shootTimer = 0.3f;
 
@@ -53,11 +51,11 @@ public class Player extends BaseEntity{
         timer += deltaTime;
         if(timer >= shootTimer){
             timer = 0;
-            bulletSound.play(0.5f,1.5f,0.0f);
+            BULLET_SOUND.play(1f,1f,0.0f);
             int offset = 4;
-            bullets.add(new Bullet(getX() - offset,getY() + getHeight()/2f,
+            BULLETS.add(new Bullet(getX() - offset,getY() + getHeight()/2f,
                     "entities/player-bullet.png",1f,0.55f));
-            bullets.add(new Bullet(getX() + getWidth() - offset ,getY() + getHeight()/2f,
+            BULLETS.add(new Bullet(getX() + getWidth() - offset ,getY() + getHeight()/2f,
                     "entities/player-bullet.png",1f,0.55f));
         }
     }
@@ -65,10 +63,10 @@ public class Player extends BaseEntity{
     public void update(float deltaTime){
 
         //check bullets that are off the screen
-        for(Bullet bullet : bullets){
+        for(Bullet bullet : BULLETS){
             bullet.update(deltaTime);
             if(bullet.isRemove()){
-                bulletsToRemove.add(bullet);
+                BULLETS_TO_REMOVE.add(bullet);
             }
         }
 
@@ -106,28 +104,28 @@ public class Player extends BaseEntity{
 
         moveRectangle(getCenterX(), getCenterY());
 
-        bullets.removeAll(bulletsToRemove);
-        bulletsToRemove.clear();
+        BULLETS.removeAll(BULLETS_TO_REMOVE);
+        BULLETS_TO_REMOVE.clear();
 
         elapsedTime += deltaTime;
     }
 
     public void render(SpriteBatch batch) {
-        for (Bullet bullet : bullets) {
+        for (Bullet bullet : BULLETS) {
             bullet.render(batch);
         }
-        batch.draw(animation.getKeyFrame(elapsedTime, true), getX(), getY(), getWidth(), getHeight());
+        batch.draw(ANIMATION.getKeyFrame(elapsedTime, true), getX(), getY(), getWidth(), getHeight());
 
         drawHealthBar(batch,0,0,Gdx.graphics.getWidth()*getHealth(),5);
     }
 
     public ArrayList<Bullet> getBullets(){
-        return bullets;
+        return BULLETS;
     }
 
     public void dispose(){
-        bulletSound.dispose();
-        for(Bullet bullet : bullets){
+        BULLET_SOUND.dispose();
+        for(Bullet bullet : BULLETS){
             bullet.dispose();
         }
     }

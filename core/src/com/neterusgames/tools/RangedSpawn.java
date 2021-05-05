@@ -1,6 +1,7 @@
 package com.neterusgames.tools;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.neterusgames.entities.Bullet;
 import com.neterusgames.entities.Player;
@@ -16,14 +17,16 @@ public class RangedSpawn {
     private float timer;
     private float minTimer;
     private float maxTimer;
-    private Player player;
-    private ArrayList<EnemyRanged> rangers = new ArrayList<>();
-    private ArrayList<EnemyRanged> rangersToRemove = new ArrayList<>();
+
+    private final Player PLAYER;
+    private ArrayList<EnemyRanged> RANGERS = new ArrayList<>();
+    private ArrayList<EnemyRanged> RANGERS_TO_REMOVE = new ArrayList<>();
+    private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/slimedeath.wav"));
 
     public RangedSpawn(float minTimer, float maxTimer, Player player){
         this.minTimer = minTimer;
         this.maxTimer = maxTimer;
-        this.player = player;
+        this.PLAYER = player;
 
         timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
     }
@@ -37,48 +40,53 @@ public class RangedSpawn {
         timer -= deltaTime;
         if(timer <= 0){
             timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
-            rangers.add(new EnemyRanged(random.nextInt(Gdx.graphics.getWidth() - 32),
+            RANGERS.add(new EnemyRanged(random.nextInt(Gdx.graphics.getWidth() - 32),
                     Gdx.graphics.getHeight()));
         }
 
-        for(EnemyRanged ranged : rangers){
+        for(EnemyRanged ranged : RANGERS){
             ranged.update(deltaTime);
             if(ranged.isRemove()){
-                rangersToRemove.add(ranged);
+                RANGERS_TO_REMOVE.add(ranged);
             }
-            if(ranged.getRectangle().overlaps(player.getRectangle())){
-                player.decreaseHealth(0.1f);
-                rangersToRemove.add(ranged);
+            if(ranged.getRectangle().overlaps(PLAYER.getRectangle())){
+                PLAYER.decreaseHealth(0.1f);
+                RANGERS_TO_REMOVE.add(ranged);
             }
         }
 
-        for(EnemyRanged ranged : rangers){
-            for(Bullet bullet : player.getBullets()){
+        for(EnemyRanged ranged : RANGERS){
+            for(Bullet bullet : PLAYER.getBullets()){
                 if(bullet.getRectangle().overlaps(ranged.getRectangle())){
 
                     ranged.decreaseHealth(bullet.getDamage()*1.5f);
                     bullet.setRemove(true);
                     if(ranged.isDead()){
-                        rangersToRemove.add(ranged);
+                        DEATH_SOUND.play(0.5f,1.0f,0.0f);
+                        RANGERS_TO_REMOVE.add(ranged);
                         ScoreCounter.score += 200;
                     }
                 }
             }
             for(Bullet bullet : ranged.getBullets()){
-                if(bullet.getRectangle().overlaps(player.getRectangle())){
+                if(bullet.getRectangle().overlaps(PLAYER.getRectangle())){
                     bullet.setRemove(true);
-                    player.decreaseHealth(0.2f);
+                    PLAYER.decreaseHealth(0.2f);
                 }
             }
         }
-        rangers.removeAll(rangersToRemove);
-        rangersToRemove.clear();
+        RANGERS.removeAll(RANGERS_TO_REMOVE);
+        RANGERS_TO_REMOVE.clear();
     }
 
     public void render(SpriteBatch batch){
-        for(EnemyRanged ranged : rangers){
+        for(EnemyRanged ranged : RANGERS){
             ranged.render(batch);
         }
+    }
+
+    public void dispose(){
+        DEATH_SOUND.dispose();
     }
 
 
