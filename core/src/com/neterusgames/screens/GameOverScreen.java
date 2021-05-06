@@ -57,7 +57,7 @@ public class GameOverScreen extends BaseScreen{
     }
 
     public void dispose(){
-
+        super.dispose();
         PLAY_BUTTON_ACTIVE.dispose();
         PLAY_BUTTON_INACTIVE.dispose();
 

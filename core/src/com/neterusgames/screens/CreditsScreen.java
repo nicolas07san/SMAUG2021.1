@@ -36,6 +36,7 @@ public class CreditsScreen extends BaseScreen{
 
     @Override
     public void dispose() {
+        super.dispose();
         BACK_BUTTON_INACTIVE.dispose();
         BACK_BUTTON_ACTIVE.dispose();
         BANNER.dispose();

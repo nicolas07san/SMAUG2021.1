@@ -81,6 +81,7 @@ public class MainMenuScreen extends BaseScreen {
     }
 
     public void dispose() {
+        super.dispose();
 
         PLAY_BUTTON_INACTIVE.dispose();
         PLAY_BUTTON_ACTIVE.dispose();

@@ -37,7 +37,6 @@ public abstract class BaseScreen implements Screen {
     }
 
     public void dispose() {
-
     }
 
     public void drawButton(Texture textureInactive, Texture textureActive , int textureX, int textureY,
