@@ -21,7 +21,7 @@ public class TankSpawn {
     private final Player PLAYER;
     private final ArrayList<EnemyTank> TANKS = new ArrayList<>();
     private final ArrayList<EnemyTank> TANKS_TO_REMOVE = new ArrayList<>();
-    private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/tankdie.wav"));
+    private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/tankdie.ogg"));
 
     public TankSpawn(float minTimer, float maxTimer, Player player){
         this.minTimer = minTimer;

@@ -22,7 +22,7 @@ public class Player extends BaseEntity{
     private final ArrayList<Bullet> BULLETS;
     private final ArrayList<Bullet> BULLETS_TO_REMOVE;
 
-    private final Sound BULLET_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/bowshoot.wav"));;
+    private final Sound BULLET_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/bowshoot.ogg"));;
 
     public Player(float x, float y){
         super(x, y);

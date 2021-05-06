@@ -19,7 +19,7 @@ public class EnemyRanged extends BaseEntity {
     private final ArrayList<Bullet> BULLETS;
     private final ArrayList<Bullet> BULLETS_TO_REMOVE;
 
-    private final Sound BULLET_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/slime_shoot.wav"));
+    private final Sound BULLET_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/slime_shoot.ogg"));
 
     public EnemyRanged(float x, float y) {
 

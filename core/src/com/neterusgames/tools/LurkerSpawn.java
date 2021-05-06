@@ -21,7 +21,7 @@ public class LurkerSpawn {
     private final Player PLAYER;
     private final ArrayList<EnemyLurker> LURKERS = new ArrayList<>();
     private final ArrayList<EnemyLurker> LURKERS_TO_REMOVE = new ArrayList<>();
-    private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/ghostdying.wav"));
+    private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/ghostdying.ogg"));
 
     public LurkerSpawn (float minTimer, float maxTimer, Player player){
         this.minTimer = minTimer;

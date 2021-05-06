@@ -21,7 +21,7 @@ public class RangedSpawn {
     private final Player PLAYER;
     private ArrayList<EnemyRanged> RANGERS = new ArrayList<>();
     private ArrayList<EnemyRanged> RANGERS_TO_REMOVE = new ArrayList<>();
-    private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/slimedeath.wav"));
+    private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/slimedeath.ogg"));
 
     public RangedSpawn(float minTimer, float maxTimer, Player player){
         this.minTimer = minTimer;
