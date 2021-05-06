@@ -43,7 +43,7 @@ public class Player extends BaseEntity{
         BULLETS = new ArrayList<>();
         BULLETS_TO_REMOVE = new ArrayList<>();
 
-        shootTimer = 0.3f;
+        shootTimer = 0.2f;
 
     }
 
@@ -51,12 +51,10 @@ public class Player extends BaseEntity{
         timer += deltaTime;
         if(timer >= shootTimer){
             timer = 0;
-            BULLET_SOUND.play(1f,1f,0.0f);
+            BULLET_SOUND.play(0.8f,1f,0.0f);
             int offset = 4;
-            BULLETS.add(new Bullet(getX() - offset,getY() + getHeight()/2f,
-                    "entities/player-bullet.png",1f,0.55f));
             BULLETS.add(new Bullet(getX() + getWidth() - offset ,getY() + getHeight()/2f,
-                    "entities/player-bullet.png",1f,0.55f));
+                    "entities/player-bullet.png",1f,0.85f));
         }
     }
 

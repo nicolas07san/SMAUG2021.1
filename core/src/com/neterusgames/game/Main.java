@@ -23,16 +23,11 @@ public class Main extends Game {
 
 	public void render () {
 		super.render();
-
 	}
 
 	public void dispose () {
 		batch.dispose();
 		this.getScreen().dispose();
-	}
-
-	public SplashWorker getSplashWorker() {
-		return splashWorker;
 	}
 
 	public void setSplashWorker(SplashWorker splashWorker) {
