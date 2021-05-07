@@ -3,6 +3,8 @@ package com.neterusgames.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.utils.Align;
 import com.neterusgames.game.Main;
 
 public class CreditsScreen extends BaseScreen{
