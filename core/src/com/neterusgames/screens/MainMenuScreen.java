@@ -32,17 +32,17 @@ public class MainMenuScreen extends BaseScreen {
     private final Texture BANNER = new Texture("banners/mainmenu-banner.png");
     private final Texture LOGO =  new Texture("banners/logo.png");
 
-    //private int highscore;
+    private final int HIGHSCORE;
 
-    //private GlyphLayout layout;
+    private final GlyphLayout LAYOUT;
 
     public MainMenuScreen(Main main){
         super(main);
 
-        //Preferences pref = Gdx.app.getPreferences("neterusgames.shmup");
-        //highscore = pref.getInteger("highscore");
+        Preferences pref = Gdx.app.getPreferences("neterusgames.shmup");
+        HIGHSCORE = pref.getInteger("highscore");
 
-        //layout = new GlyphLayout(SCORE_FONT, "" + highscore);
+        LAYOUT = new GlyphLayout(Main.FONT, "" + HIGHSCORE);
 
     }
 
@@ -57,8 +57,8 @@ public class MainMenuScreen extends BaseScreen {
 
         main.batch.draw(LOGO,20,20,LOGO.getWidth()*SCALE,LOGO.getHeight()*SCALE);
 
-        //SCORE_FONT.draw(main.batch, layout, Gdx.graphics.getWidth() / 2f - layout.width / 2,
-        //        300);
+        Main.FONT.draw(main.batch, LAYOUT, Gdx.graphics.getWidth() / 2f - LAYOUT.width / 2,
+                300);
 
         //playButton logic
         drawButton(PLAY_BUTTON_INACTIVE, PLAY_BUTTON_ACTIVE, PLAY_BUTTON_X, PLAY_BUTTON_Y,

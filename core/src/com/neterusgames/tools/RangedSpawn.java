@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.neterusgames.entities.Bullet;
 import com.neterusgames.entities.Player;
 import com.neterusgames.entities.enemies.EnemyRanged;
+import com.neterusgames.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,10 +32,10 @@ public class RangedSpawn {
         timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
     }
 
-    public void update(float deltaTime, float difficult){
-        if(minTimer >= 0.3f){
-            maxTimer = maxTimer - difficult;
-            minTimer = minTimer - difficult;
+    public void update(float deltaTime, float difficult, boolean raiseDifficult){
+        if(raiseDifficult){
+            maxTimer -= difficult;
+            minTimer -= difficult;
         }
 
         timer -= deltaTime;

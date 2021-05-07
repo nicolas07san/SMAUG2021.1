@@ -43,7 +43,7 @@ public class Player extends BaseEntity{
         BULLETS = new ArrayList<>();
         BULLETS_TO_REMOVE = new ArrayList<>();
 
-        shootTimer = 0.2f;
+        shootTimer = 0.4f;
 
     }
 
@@ -125,6 +125,15 @@ public class Player extends BaseEntity{
         BULLET_SOUND.dispose();
         for(Bullet bullet : BULLETS){
             bullet.dispose();
+        }
+    }
+
+    public void upgrade(){
+        if(shootTimer > 0.2f){
+            shootTimer -= 0.1f;
+            if(shootTimer <= 0.2f){
+                shootTimer = 0.2f;
+            }
         }
     }
 

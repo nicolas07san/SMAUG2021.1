@@ -23,30 +23,41 @@ public class GameScreen extends BaseScreen{
     private ScoreCounter scoreCounter;
 
     private float difficult = 0;
-    private int scoreMeter = 3000;
+    private int scoreMeter = 2500;
+    private int playerUpgradeMeter = 5000;
+    private boolean raiseDifficult = false;
 
     public GameScreen(Main main){
         super(main);
         player = new Player(Gdx.graphics.getWidth()/2f - 16, 15 );
-        tankSpawn = new TankSpawn(1f,2f, player);
-        rangedSpawn = new RangedSpawn(0.75f, 1.5f, player);
-        lurkerSpawn = new LurkerSpawn(0.5f,1f,player);
+        tankSpawn = new TankSpawn(2f,2.5f, player);
+        rangedSpawn = new RangedSpawn(1.5f, 2f, player);
+        lurkerSpawn = new LurkerSpawn(1f,1.5f,player);
         scoreCounter = new ScoreCounter();
 
     }
 
     public void render(float delta) {
+
         if(ScoreCounter.score >= scoreMeter){
             scoreMeter += scoreMeter;
             difficult += 0.1f;
+            raiseDifficult = true;
+        }
+
+        if(ScoreCounter.score >= playerUpgradeMeter){
+            player.upgrade();
+            playerUpgradeMeter += playerUpgradeMeter;
         }
 
         // Update entities
         player.update(delta);
 
-        tankSpawn.update(delta, difficult);
-        rangedSpawn.update(delta, difficult);
-        lurkerSpawn.update(delta, difficult);
+        tankSpawn.update(delta, difficult,raiseDifficult);
+        rangedSpawn.update(delta, difficult,raiseDifficult);
+        lurkerSpawn.update(delta, difficult,raiseDifficult);
+
+        raiseDifficult = false;
 
         if(player.isDead()){
             main.setScreen(new GameOverScreen(main, ScoreCounter.score));
@@ -65,6 +76,8 @@ public class GameScreen extends BaseScreen{
         player.render(main.batch);
 
         scoreCounter.render(main.batch);
+
+        System.out.println(difficult);
 
         main.batch.end();
     }

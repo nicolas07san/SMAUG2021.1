@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.neterusgames.entities.Bullet;
 import com.neterusgames.entities.Player;
 import com.neterusgames.entities.enemies.EnemyLurker;
+import com.neterusgames.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -32,10 +33,10 @@ public class LurkerSpawn {
 
     }
 
-    public void update(float deltaTime, float difficult){
-        if(minTimer >= 0.3f){
-            maxTimer = maxTimer - difficult;
-            minTimer = minTimer - difficult;
+    public void update(float deltaTime, float difficult, boolean raiseDifficult){
+        if(raiseDifficult){
+            maxTimer -= difficult;
+            minTimer -= difficult;
         }
 
         timer -= deltaTime;
@@ -55,6 +56,7 @@ public class LurkerSpawn {
                 LURKERS_TO_REMOVE.add(lurker);
             }
         }
+
         for(EnemyLurker lurker : LURKERS){
             for(Bullet bullet :  PLAYER.getBullets()){
                 if(bullet.getRectangle().overlaps(lurker.getRectangle())){
@@ -68,8 +70,11 @@ public class LurkerSpawn {
                 }
             }
         }
+
         LURKERS.removeAll(LURKERS_TO_REMOVE);
         LURKERS_TO_REMOVE.clear();
+
+        System.out.println("MinTimer = " + minTimer + " MaxTimer = " + maxTimer);
     }
 
     public void render(SpriteBatch batch){
