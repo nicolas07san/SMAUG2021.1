@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.neterusgames.entities.Bullet;
 import com.neterusgames.entities.Player;
+import com.neterusgames.entities.enemies.DeathAnimation;
 import com.neterusgames.entities.enemies.EnemyTank;
 import com.neterusgames.screens.GameScreen;
 
@@ -20,8 +21,13 @@ public class TankSpawn {
     private float maxTimer;
 
     private final Player PLAYER;
+
     private final ArrayList<EnemyTank> TANKS = new ArrayList<>();
     private final ArrayList<EnemyTank> TANKS_TO_REMOVE = new ArrayList<>();
+
+    private final ArrayList<DeathAnimation> DEATH_ANIM = new ArrayList<>();
+    private final ArrayList<DeathAnimation> DEATH_ANIM_TO_REMOVE = new ArrayList<>();
+
     private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/tankdie.ogg"));
 
     public TankSpawn(float minTimer, float maxTimer, Player player){
@@ -64,18 +70,32 @@ public class TankSpawn {
                         TANKS_TO_REMOVE.add(tank);
                         ScoreCounter.score += 500;
                         DEATH_SOUND.play(0.2f,1.0f,0.0f);
+                        DEATH_ANIM.add(new DeathAnimation(tank.getX(),tank.getY(),"entities/tank-death.png"));
                     }
                 }
             }
         }
 
+        for(DeathAnimation anim : DEATH_ANIM){
+            anim.update(deltaTime);
+            if(anim.remove){
+                DEATH_ANIM_TO_REMOVE.add(anim);
+            }
+        }
+
         TANKS.removeAll(TANKS_TO_REMOVE);
         TANKS_TO_REMOVE.clear();
+
+        DEATH_ANIM.removeAll(DEATH_ANIM_TO_REMOVE);
+        DEATH_ANIM_TO_REMOVE.clear();
     }
 
     public void render(SpriteBatch batch){
         for(EnemyTank tank : TANKS){
             tank.render(batch);
+        }
+        for(DeathAnimation anim : DEATH_ANIM){
+            anim.render(batch);
         }
     }
 

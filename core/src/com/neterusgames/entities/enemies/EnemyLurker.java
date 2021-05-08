@@ -3,12 +3,15 @@ package com.neterusgames.entities.enemies;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.neterusgames.entities.BaseEntity;
 
 public class EnemyLurker extends BaseEntity {
 
     private boolean remove = false;
+    private final float FRAME_TIME = 0.25f;
 
     public EnemyLurker(float x, float y){
         super(x, y);
