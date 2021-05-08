@@ -6,15 +6,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Align;
 import com.neterusgames.game.Main;
+import org.w3c.dom.Text;
 
 public class CreditsScreen extends BaseScreen{
 
-    private final Texture BACK_BUTTON_INACTIVE = new Texture("buttons/back-inactive.png");;
-    private final Texture BACK_BUTTON_ACTIVE = new Texture("buttons/back-active.png");;
+    private final Texture BACK_BUTTON_INACTIVE = new Texture("buttons/back-inactive.png");
+    private final Texture BACK_BUTTON_ACTIVE = new Texture("buttons/back-active.png");
     private final int BACK_BUTTON_X = 20;
     private final int BACK_BUTTON_Y = 50;
 
-    private final Texture BANNER  = new Texture("banners/credits-banner.png");;
+    private final Texture BANNER  = new Texture("banners/credits-banner.png");
+    private final Texture TEXT = new Texture("banners/Credits-text.png");
 
     CreditsScreen(Main main) {
         super(main);
@@ -32,6 +34,11 @@ public class CreditsScreen extends BaseScreen{
 
         main.batch.draw(BANNER,Gdx.graphics.getWidth()/2f - BANNER.getWidth()/2f,
                 Gdx.graphics.getHeight() - BANNER.getHeight() - 20);
+
+        main.batch.draw(TEXT,Gdx.graphics.getWidth()/2f - (TEXT.getWidth()*SCALE)/2f,
+                Gdx.graphics.getHeight()/2f - (TEXT.getHeight()*SCALE)/2f,
+                TEXT.getWidth()*SCALE,
+                TEXT.getHeight()*SCALE);
 
         main.batch.end();
     }

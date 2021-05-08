@@ -2,13 +2,16 @@ package com.neterusgames.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.utils.Align;
 import com.neterusgames.game.Main;
 
 public class GameOverScreen extends BaseScreen{
 
-    private int highscore;
+    private int highscore,score;
 
     private final Texture BACK_BUTTON_INACTIVE =  new Texture("buttons/back-inactive.png");
     private final Texture BACK_BUTTON_ACTIVE = new Texture("buttons/back-active.png");
@@ -24,6 +27,7 @@ public class GameOverScreen extends BaseScreen{
 
     GameOverScreen(Main main, int score) {
         super(main);
+        this.score = score;
 
         Preferences pref = Gdx.app.getPreferences("neterusgames.shmup");
         highscore = pref.getInteger("highscore",0);
@@ -52,6 +56,16 @@ public class GameOverScreen extends BaseScreen{
 
         main.batch.draw(BANNER, Gdx.graphics.getWidth()/2f - BANNER.getWidth()/2f,
                 Gdx.graphics.getHeight() - BANNER.getHeight() - 20);
+
+        GlyphLayout scoreLayout = new GlyphLayout(Main.FONT,"Score: \n"+score,Color.WHITE,
+                0,Align.left,false);
+        GlyphLayout highscoreLayout = new GlyphLayout(Main.FONT,"Highscore: \n"+highscore,Color.WHITE,
+                0,Align.left,false);
+
+        Main.FONT.draw(main.batch, scoreLayout,Gdx.graphics.getWidth()/2f - scoreLayout.width/2,
+                Gdx.graphics.getHeight() -350);
+        Main.FONT.draw(main.batch, highscoreLayout,Gdx.graphics.getWidth()/2f - highscoreLayout.width/2,
+                Gdx.graphics.getHeight() -250);
 
         main.batch.end();
     }

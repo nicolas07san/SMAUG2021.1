@@ -33,8 +33,6 @@ public class MainMenuScreen extends BaseScreen {
     private final Texture BANNER = new Texture("banners/mainmenu-banner.png");
     private final Texture LOGO =  new Texture("banners/logo.png");
 
-    private final MusicPlayer musicPlayer = new MusicPlayer();
-
     private final int HIGHSCORE;
 
     private final GlyphLayout LAYOUT;
@@ -47,11 +45,10 @@ public class MainMenuScreen extends BaseScreen {
 
         LAYOUT = new GlyphLayout(Main.FONT, "" + HIGHSCORE);
 
-        musicPlayer.playMusic();
-
     }
 
     public void render(float delta) {
+
         Gdx.gl.glClearColor(0.3f,0.3f,0.3f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

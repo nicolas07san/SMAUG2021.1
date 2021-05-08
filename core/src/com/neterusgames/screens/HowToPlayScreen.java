@@ -13,6 +13,7 @@ public class HowToPlayScreen extends BaseScreen{
     private final int BACK_BUTTON_Y = 50;
 
     private final Texture BANNER = new Texture("banners/h2p-banner.png");
+    private final Texture TEXT =  new Texture("banners/h2p-text.png");
 
     HowToPlayScreen(Main main) {
         super(main);
@@ -31,6 +32,11 @@ public class HowToPlayScreen extends BaseScreen{
 
         main.batch.draw(BANNER, Gdx.graphics.getWidth()/2f - BANNER.getWidth()/2f,
                 Gdx.graphics.getHeight() - BANNER.getHeight() - 20);
+
+        main.batch.draw(TEXT,Gdx.graphics.getWidth()/2f - (TEXT.getWidth()*SCALE)/2f,
+                Gdx.graphics.getHeight()/2f - (TEXT.getHeight()*SCALE)/2f,
+                TEXT.getWidth()*SCALE,
+                TEXT.getHeight()*SCALE);
 
         main.batch.end();
 

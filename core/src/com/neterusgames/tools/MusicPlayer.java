@@ -12,12 +12,9 @@ public class MusicPlayer {
     }
 
     public void playMusic(){
-        if(menuMusic.isPlaying()){
-
-        }else{
+        if(!(menuMusic.isPlaying())){
             menuMusic.play();
         }
-
     }
 
     public void dispose(){
