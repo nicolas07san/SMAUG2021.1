@@ -39,9 +39,13 @@ public class TankSpawn {
     }
 
     public void update(float deltaTime,float difficult, boolean raiseDifficult){
-        if(raiseDifficult){
+        if(raiseDifficult && minTimer > 0.3f){
             maxTimer -= difficult;
             minTimer -= difficult;
+            if(minTimer <= 0.3f){
+                minTimer = 0.3f;
+                maxTimer = 0.6f;
+            }
         }
 
         timer -= deltaTime;

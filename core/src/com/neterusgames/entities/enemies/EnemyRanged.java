@@ -3,7 +3,9 @@ package com.neterusgames.entities.enemies;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.neterusgames.entities.BaseEntity;
 import com.neterusgames.entities.Bullet;
 
@@ -16,16 +18,26 @@ public class EnemyRanged extends BaseEntity {
     private float timer;
     private final float SHOOT_TIMER = 1f;
 
+    private float stateTime;
+    private final Animation<TextureRegion> anim;
+
     private final ArrayList<Bullet> BULLETS;
     private final ArrayList<Bullet> BULLETS_TO_REMOVE;
 
     private final Sound BULLET_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/slime_shoot.ogg"));
 
     public EnemyRanged(float x, float y) {
-
         super(x, y);
-        setTexture(new Texture("entities/enemy-ranged.png"));
+        if(getTexture() == null){
+            setTexture(new Texture("entities/enemy-ranged.png"));
+        }
+        setWidth(32);
+        setHeight(32);
+
         setRectangle(getX(), getY(), getWidth(), getHeight());
+
+        anim = createAnimation(0.25f);
+
         setSpeed(200);
 
         BULLETS = new ArrayList<>();
@@ -34,6 +46,7 @@ public class EnemyRanged extends BaseEntity {
     }
 
     public void update(float deltaTime) {
+        stateTime+=deltaTime;
 
         setY(getY() - getSpeed() * deltaTime);
         if(getY() <= -getHeight()){
@@ -55,10 +68,13 @@ public class EnemyRanged extends BaseEntity {
     }
 
     public void render(SpriteBatch batch){
+
         for(Bullet bullet : BULLETS){
             bullet.render(batch);
         }
-        super.render(batch);
+
+        batch.draw(anim.getKeyFrame(stateTime,true),getX(),getY(),getWidth(),getHeight());
+
         drawHealthBar(batch,getX(),getY()+getHeight()+2, getWidth()*getHealth(),3);
     }
 
