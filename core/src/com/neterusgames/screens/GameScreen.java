@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.neterusgames.entities.*;
 import com.neterusgames.entities.enemies.*;
 import com.neterusgames.game.Main;
-import com.neterusgames.tools.LurkerSpawn;
-import com.neterusgames.tools.RangedSpawn;
-import com.neterusgames.tools.ScoreCounter;
-import com.neterusgames.tools.TankSpawn;
+import com.neterusgames.tools.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -22,7 +19,8 @@ public class GameScreen extends BaseScreen{
     private LurkerSpawn lurkerSpawn;
     private ScoreCounter scoreCounter;
 
-    private float difficult = 0;
+    private MusicPlayer musicPlayer =  new MusicPlayer();
+
     private int scoreMeter = 2500;
     private int playerUpgradeMeter = 5000;
     private boolean raiseDifficult = false;
@@ -35,13 +33,17 @@ public class GameScreen extends BaseScreen{
         lurkerSpawn = new LurkerSpawn(1f,1.5f,player);
         scoreCounter = new ScoreCounter();
 
+
+    }
+
+    public void show(){
+        musicPlayer.playMusic();
     }
 
     public void render(float delta) {
 
         if(ScoreCounter.score >= scoreMeter){
             scoreMeter += scoreMeter;
-            difficult += 0.1f;
             raiseDifficult = true;
         }
 
@@ -53,9 +55,9 @@ public class GameScreen extends BaseScreen{
         // Update entities
         player.update(delta);
 
-        tankSpawn.update(delta, difficult,raiseDifficult);
-        rangedSpawn.update(delta, difficult,raiseDifficult);
-        lurkerSpawn.update(delta, difficult,raiseDifficult);
+        tankSpawn.update(delta, raiseDifficult);
+        rangedSpawn.update(delta, raiseDifficult);
+        lurkerSpawn.update(delta, raiseDifficult);
 
         raiseDifficult = false;
 
@@ -77,8 +79,6 @@ public class GameScreen extends BaseScreen{
 
         scoreCounter.render(main.batch);
 
-        System.out.println(difficult);
-
         main.batch.end();
     }
 
@@ -86,6 +86,7 @@ public class GameScreen extends BaseScreen{
         super.dispose();
         player.dispose();
         scoreCounter.dispose();
+        musicPlayer.dispose();
         System.out.println("Game Screen Disposed");
     }
 

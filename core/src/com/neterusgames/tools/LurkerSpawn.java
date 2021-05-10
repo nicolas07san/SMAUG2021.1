@@ -42,11 +42,11 @@ public class LurkerSpawn {
 
     }
 
-    public void update(float deltaTime, float difficult, boolean raiseDifficult){
+    public void update(float deltaTime, boolean raiseDifficult){
 
         if(raiseDifficult && minTimer > 0.3f){
-            maxTimer -= difficult;
-            minTimer -= difficult;
+            maxTimer -= 0.1f;
+            minTimer -= 0.1f;
             if(minTimer <= 0.3f){
                 minTimer = 0.3f;
                 maxTimer = 0.6f;

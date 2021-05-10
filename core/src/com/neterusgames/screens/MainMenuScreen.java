@@ -42,7 +42,6 @@ public class MainMenuScreen extends BaseScreen {
 
         Preferences pref = Gdx.app.getPreferences("neterusgames.shmup");
         HIGHSCORE = pref.getInteger("highscore");
-
         LAYOUT = new GlyphLayout(Main.FONT, "" + HIGHSCORE);
 
     }

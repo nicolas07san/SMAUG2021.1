@@ -37,13 +37,13 @@ public class RangedSpawn {
         timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
     }
 
-    public void update(float deltaTime, float difficult, boolean raiseDifficult){
-        if(raiseDifficult &&  minTimer > 0.3f){
-            maxTimer -= difficult;
-            minTimer -= difficult;
-            if(minTimer <= 0.3f){
-                minTimer = 0.3f;
-                maxTimer = 0.6f;
+    public void update(float deltaTime, boolean raiseDifficult){
+        if(raiseDifficult &&  minTimer > 0.4f){
+            maxTimer -= 0.1f;
+            minTimer -= 0.1f;
+            if(minTimer <= 0.4f){
+                minTimer = 0.4f;
+                maxTimer = 0.8f;
             }
         }
 
