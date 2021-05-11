@@ -23,7 +23,7 @@ public class TankSpawn implements Runnable {
 
     private final Player PLAYER;
 
-    private final Main MAIN =  new Main();
+    private SpriteBatch batch;
 
     private final ArrayList<EnemyTank> TANKS = new ArrayList<>();
     private final ArrayList<EnemyTank> TANKS_TO_REMOVE = new ArrayList<>();
@@ -33,10 +33,14 @@ public class TankSpawn implements Runnable {
 
     private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/tankdie.ogg"));
 
-    public TankSpawn(float minTimer, float maxTimer, Player player){
+    private Thread thread;
+    private boolean running;
+
+    public TankSpawn(float minTimer, float maxTimer, Player player, SpriteBatch batch){
         this.minTimer = minTimer;
         this.maxTimer = maxTimer;
         this.PLAYER = player;
+        this.batch =  batch;
 
         timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
     }
@@ -110,10 +114,40 @@ public class TankSpawn implements Runnable {
         DEATH_SOUND.dispose();
     }
 
+    //Thread
+
     public void run() {
-        while(!PLAYER.isDead()){
-            update(GameScreen.deltaTime, GameScreen.raiseDifficult);
+        System.out.println("Thread Iniciada");
+        Gdx.app.postRunnable(this);
+
+        while(running) {
             System.out.println("Rodando");
+            update(GameScreen.deltaTime, GameScreen.raiseDifficult);
+            render(batch);
+            }
+
+        try {
+            stop();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        System.out.println("Thread Parada");
+    }
+
+    public synchronized void start(){
+        if(running){
+            return;
+        }
+        running = true;
+        thread = new Thread(this);
+        thread.start();
+    }
+
+    public synchronized void stop() throws InterruptedException {
+        if(!running){
+            return;
+        }
+        running = false;
+        thread.join(100);
     }
 }

@@ -22,8 +22,6 @@ public class GameScreen extends BaseScreen{
     private LurkerSpawn lurkerSpawn;
     private ScoreCounter scoreCounter;
 
-    private Thread thread1;
-
     private MusicPlayer musicPlayer =  new MusicPlayer();
 
     private int scoreMeter = 2500;
@@ -32,19 +30,15 @@ public class GameScreen extends BaseScreen{
     public GameScreen(Main main){
         super(main);
         player = new Player(Gdx.graphics.getWidth()/2f - 16, 15 );
-        tankSpawn = new TankSpawn(2f,2.5f, player);
+        tankSpawn = new TankSpawn(2f,2.5f, player, main.batch);
         rangedSpawn = new RangedSpawn(1.5f, 2f, player);
         lurkerSpawn = new LurkerSpawn(1f,1.5f,player);
         scoreCounter = new ScoreCounter();
-
-        thread1 = new Thread(tankSpawn, "TankSpawnThread");
 
     }
 
     public void show(){
         musicPlayer.playMusic();
-        thread1.start();
-
     }
 
     public void render(float delta) {
@@ -70,8 +64,13 @@ public class GameScreen extends BaseScreen{
         raiseDifficult = false;
 
         if(player.isDead()){
-            main.setScreen(new GameOverScreen(main, ScoreCounter.score));
+            try {
+                tankSpawn.stop();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             dispose();
+            main.setScreen(new GameOverScreen(main, ScoreCounter.score));
         }
 
         //Render entities
@@ -79,6 +78,8 @@ public class GameScreen extends BaseScreen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         main.batch.begin();
+
+        tankSpawn.start();
 
         //tankSpawn.render(main.batch);
         lurkerSpawn.render(main.batch);
