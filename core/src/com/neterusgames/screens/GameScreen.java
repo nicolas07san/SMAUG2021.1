@@ -12,6 +12,9 @@ import java.util.Random;
 
 public class GameScreen extends BaseScreen{
 
+    public static float deltaTime;
+    public static boolean raiseDifficult = false;
+
     private Player player;
 
     private TankSpawn tankSpawn;
@@ -19,11 +22,12 @@ public class GameScreen extends BaseScreen{
     private LurkerSpawn lurkerSpawn;
     private ScoreCounter scoreCounter;
 
+    private Thread thread1;
+
     private MusicPlayer musicPlayer =  new MusicPlayer();
 
     private int scoreMeter = 2500;
     private int playerUpgradeMeter = 5000;
-    private boolean raiseDifficult = false;
 
     public GameScreen(Main main){
         super(main);
@@ -33,14 +37,18 @@ public class GameScreen extends BaseScreen{
         lurkerSpawn = new LurkerSpawn(1f,1.5f,player);
         scoreCounter = new ScoreCounter();
 
+        thread1 = new Thread(tankSpawn, "TankSpawnThread");
 
     }
 
     public void show(){
         musicPlayer.playMusic();
+        thread1.start();
+
     }
 
     public void render(float delta) {
+        deltaTime = delta;
 
         if(ScoreCounter.score >= scoreMeter){
             scoreMeter += scoreMeter;
@@ -55,7 +63,7 @@ public class GameScreen extends BaseScreen{
         // Update entities
         player.update(delta);
 
-        tankSpawn.update(delta, raiseDifficult);
+        //tankSpawn.update(delta, raiseDifficult);
         rangedSpawn.update(delta, raiseDifficult);
         lurkerSpawn.update(delta, raiseDifficult);
 
@@ -72,7 +80,7 @@ public class GameScreen extends BaseScreen{
 
         main.batch.begin();
 
-        tankSpawn.render(main.batch);
+        //tankSpawn.render(main.batch);
         lurkerSpawn.render(main.batch);
         rangedSpawn.render(main.batch);
         player.render(main.batch);
@@ -84,6 +92,7 @@ public class GameScreen extends BaseScreen{
 
     public void dispose() {
         super.dispose();
+        tankSpawn.dispose();
         player.dispose();
         scoreCounter.dispose();
         musicPlayer.dispose();

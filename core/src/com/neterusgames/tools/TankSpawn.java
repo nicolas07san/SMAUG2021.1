@@ -7,12 +7,13 @@ import com.neterusgames.entities.Bullet;
 import com.neterusgames.entities.Player;
 import com.neterusgames.entities.enemies.DeathAnimation;
 import com.neterusgames.entities.enemies.EnemyTank;
+import com.neterusgames.game.Main;
 import com.neterusgames.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class TankSpawn {
+public class TankSpawn implements Runnable {
 
     private Random random = new Random();
 
@@ -21,6 +22,8 @@ public class TankSpawn {
     private float maxTimer;
 
     private final Player PLAYER;
+
+    private final Main MAIN =  new Main();
 
     private final ArrayList<EnemyTank> TANKS = new ArrayList<>();
     private final ArrayList<EnemyTank> TANKS_TO_REMOVE = new ArrayList<>();
@@ -107,4 +110,10 @@ public class TankSpawn {
         DEATH_SOUND.dispose();
     }
 
+    public void run() {
+        while(!PLAYER.isDead()){
+            update(GameScreen.deltaTime, GameScreen.raiseDifficult);
+            System.out.println("Rodando");
+        }
+    }
 }
