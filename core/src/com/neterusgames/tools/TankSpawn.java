@@ -45,7 +45,7 @@ public class TankSpawn implements Runnable {
         timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
     }
 
-    public void update(float deltaTime, boolean raiseDifficult){
+    public synchronized void update(float deltaTime, boolean raiseDifficult){
         if(raiseDifficult && minTimer > 0.5f){
             maxTimer -= 0.1f;
             minTimer -= 0.1f;
@@ -101,7 +101,7 @@ public class TankSpawn implements Runnable {
         DEATH_ANIM_TO_REMOVE.clear();
     }
 
-    public void render(SpriteBatch batch){
+    public synchronized void render(SpriteBatch batch){
         for(EnemyTank tank : TANKS){
             tank.render(batch);
         }
@@ -110,7 +110,8 @@ public class TankSpawn implements Runnable {
         }
     }
 
-    public void dispose(){
+    public synchronized void dispose() throws InterruptedException {
+        stop();
         DEATH_SOUND.dispose();
     }
 
@@ -118,13 +119,16 @@ public class TankSpawn implements Runnable {
 
     public void run() {
         System.out.println("Thread Iniciada");
-        Gdx.app.postRunnable(this);
+        Gdx.app.postRunnable(new Runnable() {
 
-        while(running) {
-            System.out.println("Rodando");
-            update(GameScreen.deltaTime, GameScreen.raiseDifficult);
-            render(batch);
+            public void run() {
+                while(running) {
+                    System.out.println("Rodando");
+                    update(GameScreen.deltaTime, GameScreen.raiseDifficult);
+                    render(batch);
+                }
             }
+        });
 
         try {
             stop();
@@ -148,6 +152,6 @@ public class TankSpawn implements Runnable {
             return;
         }
         running = false;
-        thread.join(100);
+        thread.join();
     }
 }

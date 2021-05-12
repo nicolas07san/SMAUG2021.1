@@ -39,6 +39,8 @@ public class GameScreen extends BaseScreen{
 
     public void show(){
         musicPlayer.playMusic();
+        tankSpawn.start();
+
     }
 
     public void render(float delta) {
@@ -79,8 +81,6 @@ public class GameScreen extends BaseScreen{
 
         main.batch.begin();
 
-        tankSpawn.start();
-
         //tankSpawn.render(main.batch);
         lurkerSpawn.render(main.batch);
         rangedSpawn.render(main.batch);
@@ -93,7 +93,11 @@ public class GameScreen extends BaseScreen{
 
     public void dispose() {
         super.dispose();
-        tankSpawn.dispose();
+        try {
+            tankSpawn.dispose();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         player.dispose();
         scoreCounter.dispose();
         musicPlayer.dispose();
