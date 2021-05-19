@@ -8,12 +8,12 @@ public class MusicPlayer {
     private final Music music;
 
     public MusicPlayer(){
-        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/menu-music.ogg"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/game-music.ogg"));
     }
 
     public void playMusic(){
         if(!(music.isPlaying())){
-            music.setVolume(0.5f);
+            music.setVolume(0.2f);
             music.setLooping(true);
             music.play();
         }

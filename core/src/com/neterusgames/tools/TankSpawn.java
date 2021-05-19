@@ -110,8 +110,8 @@ public class TankSpawn implements Runnable {
         }
     }
 
-    public synchronized void dispose() throws InterruptedException {
-        stop();
+    public synchronized void dispose() {
+        //stop();
         DEATH_SOUND.dispose();
     }
 
