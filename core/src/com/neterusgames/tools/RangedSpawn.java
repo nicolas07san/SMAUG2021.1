@@ -73,7 +73,7 @@ public class RangedSpawn {
                     bullet.setRemove(true);
                     if(ranged.isDead()){
                         DEATH_SOUND.play(0.8f,1.0f,0.0f);
-                        DEATH_ANIM.add(new DeathAnimation(ranged.getX(),ranged.getY(),"entities/ranged-death.png"));
+                        DEATH_ANIM.add(new DeathAnimation(ranged.getX(),ranged.getY()));
                         RANGERS_TO_REMOVE.add(ranged);
                         ScoreCounter.score += 200;
                     }

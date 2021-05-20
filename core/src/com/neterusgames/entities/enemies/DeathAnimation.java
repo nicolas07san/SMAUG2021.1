@@ -15,11 +15,11 @@ public class DeathAnimation extends BaseEntity {
 
     public boolean remove;
 
-    public DeathAnimation(float x, float y, String path){
+    public DeathAnimation(float x, float y){
         super(x,y);
         stateTime = 0;
         if(getTexture() == null){
-            setTexture(new Texture(path));
+            setTexture(new Texture("entities/death-animation.png"));
         }
 
         setWidth(32);

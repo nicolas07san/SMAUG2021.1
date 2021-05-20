@@ -51,7 +51,7 @@ public class TankSpawn implements Runnable {
             minTimer -= 0.1f;
             if(minTimer <= 0.5f){
                 minTimer = 0.5f;
-                maxTimer = 0.1f;
+                maxTimer = 1f;
             }
         }
 
@@ -81,7 +81,7 @@ public class TankSpawn implements Runnable {
                         TANKS_TO_REMOVE.add(tank);
                         ScoreCounter.score += 500;
                         DEATH_SOUND.play(0.2f,1.0f,0.0f);
-                        DEATH_ANIM.add(new DeathAnimation(tank.getX(),tank.getY(),"entities/tank-death.png"));
+                        DEATH_ANIM.add(new DeathAnimation(tank.getX(),tank.getY()));
                     }
                 }
             }

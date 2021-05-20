@@ -22,6 +22,7 @@ public class GameScreen extends BaseScreen{
     private LurkerSpawn lurkerSpawn;
     private ScoreCounter scoreCounter;
 
+    private ScrollingBackground scrollingBackground =  new ScrollingBackground();
     private MusicPlayer musicPlayer =  new MusicPlayer();
 
     private int scoreMeter = 2500;
@@ -80,6 +81,8 @@ public class GameScreen extends BaseScreen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         main.batch.begin();
+
+        scrollingBackground.updateAndRender(delta, main.batch);
 
         tankSpawn.render(main.batch);
         lurkerSpawn.render(main.batch);

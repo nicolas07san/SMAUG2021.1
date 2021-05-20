@@ -17,7 +17,10 @@ public class Player extends BaseEntity{
     private float frameTime = 0.25f;
     private float elapsedTime;
 
-    private final Animation <TextureRegion> ANIMATION;
+    private boolean shooting;
+
+    private final Animation <TextureRegion> WALK_ANIMATION;
+    private final Animation <TextureRegion> SHOOT_ANIMATION;
 
     private final ArrayList<Bullet> BULLETS;
     private final ArrayList<Bullet> BULLETS_TO_REMOVE;
@@ -38,7 +41,10 @@ public class Player extends BaseEntity{
 
         setSpeed(250);
 
-        ANIMATION = createAnimation(frameTime);
+        WALK_ANIMATION = createAnimation(frameTime);
+        SHOOT_ANIMATION = new Animation<>(frameTime/3,
+                TextureRegion.split(new Texture("entities/player_attack.png"),
+                        32, 32)[0]);
 
         BULLETS = new ArrayList<>();
         BULLETS_TO_REMOVE = new ArrayList<>();
@@ -60,6 +66,8 @@ public class Player extends BaseEntity{
 
     public void update(float deltaTime){
 
+        shooting = false;
+
         //check bullets that are off the screen
         for(Bullet bullet : BULLETS){
             bullet.update(deltaTime);
@@ -70,6 +78,7 @@ public class Player extends BaseEntity{
 
         // check for inputs
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            shooting = true;
             shoot(deltaTime);
         }
 
@@ -112,7 +121,13 @@ public class Player extends BaseEntity{
         for (Bullet bullet : BULLETS) {
             bullet.render(batch);
         }
-        batch.draw(ANIMATION.getKeyFrame(elapsedTime, true), getX(), getY(), getWidth(), getHeight());
+        if(!shooting){
+            batch.draw(WALK_ANIMATION.getKeyFrame(elapsedTime, true), getX(), getY(), getWidth(), getHeight());
+        }
+        else{
+            batch.draw(SHOOT_ANIMATION.getKeyFrame(elapsedTime,true),getX(),getY(),getWidth(),getHeight());
+        }
+
 
         drawHealthBar(batch,0,0,Gdx.graphics.getWidth()*getHealth(),5);
     }

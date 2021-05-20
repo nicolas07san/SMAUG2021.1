@@ -78,7 +78,7 @@ public class LurkerSpawn {
                     bullet.setRemove(true);
                     if(lurker.isDead()){
                         DEATH_SOUND.play(0.2f,1.5f,0.0f);
-                        DEATH_ANIM.add(new DeathAnimation(lurker.getX(),lurker.getY(),"entities/lurker-death.png"));
+                        DEATH_ANIM.add(new DeathAnimation(lurker.getX(),lurker.getY()));
                         LURKERS_TO_REMOVE.add(lurker);
                         ScoreCounter.score += 350;
                     }
