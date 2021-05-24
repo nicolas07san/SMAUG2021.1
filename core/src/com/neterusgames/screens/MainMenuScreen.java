@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.neterusgames.game.Main;
-import com.neterusgames.tools.MusicPlayer;
 
 public class MainMenuScreen extends BaseScreen {
 

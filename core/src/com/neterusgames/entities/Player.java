@@ -34,8 +34,8 @@ public class Player extends BaseEntity{
             setTexture(new Texture("entities/player.png"));
         }
 
-        setWidth(32);
-        setHeight(32);
+        setWidth(25);
+        setHeight(30);
 
         setRectangle(getX(),getY(),getWidth(),getHeight());
 
@@ -44,7 +44,7 @@ public class Player extends BaseEntity{
         WALK_ANIMATION = createAnimation(frameTime);
         SHOOT_ANIMATION = new Animation<>(frameTime/3,
                 TextureRegion.split(new Texture("entities/player_attack.png"),
-                        32, 32)[0]);
+                        25, 30)[0]);
 
         BULLETS = new ArrayList<>();
         BULLETS_TO_REMOVE = new ArrayList<>();

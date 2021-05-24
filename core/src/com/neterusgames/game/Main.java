@@ -19,7 +19,7 @@ public class Main extends Game {
 
 	public void create () {
 		splashWorker.closeSplashScreen();
-		FONT = new BitmapFont(Gdx.files.internal("fonts/myfont.fnt"));
+		FONT = new BitmapFont(Gdx.files.internal("Fonts/myfont.fnt"));
 		batch = new SpriteBatch();
 		setScreen(new MainMenuScreen(this));
 
