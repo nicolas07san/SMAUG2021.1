@@ -64,9 +64,12 @@ public class ScrollingBackground implements Runnable {
     }
 
     public void run() {
+        System.out.println("Thread Background Iniciada");
         while(running){
             update(GameScreen.deltaTime);
+            //System.out.println(GameScreen.deltaTime);
         }
+        System.out.println("Thread Background Finalizada");
     }
 
     public void stop() throws InterruptedException {
@@ -74,7 +77,7 @@ public class ScrollingBackground implements Runnable {
             return;
         }
         running = false;
-        thread.join();
+        Thread.currentThread().interrupt();
         dispose();
     }
 }

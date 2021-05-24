@@ -3,50 +3,49 @@ package com.neterusgames.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.neterusgames.entities.*;
-import com.neterusgames.entities.enemies.*;
 import com.neterusgames.game.Main;
 import com.neterusgames.tools.*;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class GameScreen extends BaseScreen{
 
     public static float deltaTime;
     public static boolean raiseDifficult = false;
 
-    private Player player;
+    private final Player PLAYER;
 
-    private TankSpawn tankSpawn;
-    private RangedSpawn rangedSpawn;
-    private LurkerSpawn lurkerSpawn;
-    private ScoreCounter scoreCounter;
+    private final TankSpawn TANK_SPAWN;
+    private final RangedSpawn RANGED_SPAWN;
+    private final LurkerSpawn LURKER_SPAWN;
+    private final ScoreCounter SCORE_COUNTER;
 
-    private ScrollingBackground scrollingBackground =  new ScrollingBackground();
-    private MusicPlayer musicPlayer =  new MusicPlayer();
+    private final ScrollingBackground SCROLLING_BACKGROUND =  new ScrollingBackground();
+    private final  MusicPlayer MUSIC_PLAYER =  new MusicPlayer();
 
     private int scoreMeter = 2500;
     private int playerUpgradeMeter = 5000;
 
     public GameScreen(Main main){
+
         super(main);
-        player = new Player(Gdx.graphics.getWidth()/2f - 16, 15 );
-        tankSpawn = new TankSpawn(2f,2.5f, player, main.batch);
-        rangedSpawn = new RangedSpawn(1.5f, 2f, player);
-        lurkerSpawn = new LurkerSpawn(1f,1.5f,player);
-        scoreCounter = new ScoreCounter();
+        PLAYER = new Player(Gdx.graphics.getWidth()/2f - 16, 15 );
+        TANK_SPAWN = new TankSpawn(2f,2.5f, PLAYER, main.batch);
+        RANGED_SPAWN = new RangedSpawn(1.5f, 2f, PLAYER);
+        LURKER_SPAWN = new LurkerSpawn(1f,1.5f, PLAYER);
+        SCORE_COUNTER = new ScoreCounter();
 
     }
 
     public void show(){
-        musicPlayer.start();
-        scrollingBackground.start();
+        MUSIC_PLAYER.start();
         //tankSpawn.start();
-
     }
 
     public void render(float delta) {
         deltaTime = delta;
+
+        System.out.println("DELTA : "+delta);
+
+        SCROLLING_BACKGROUND.start();
 
         if(ScoreCounter.score >= scoreMeter){
             scoreMeter += scoreMeter;
@@ -54,22 +53,22 @@ public class GameScreen extends BaseScreen{
         }
 
         if(ScoreCounter.score >= playerUpgradeMeter){
-            player.upgrade();
+            PLAYER.upgrade();
             playerUpgradeMeter += playerUpgradeMeter;
         }
 
         // Update entities
-        player.update(delta);
+        PLAYER.update(delta);
 
-        tankSpawn.update(delta, raiseDifficult);
-        rangedSpawn.update(delta, raiseDifficult);
-        lurkerSpawn.update(delta, raiseDifficult);
+        TANK_SPAWN.update(delta, raiseDifficult);
+        RANGED_SPAWN.update(delta, raiseDifficult);
+        LURKER_SPAWN.update(delta, raiseDifficult);
 
         raiseDifficult = false;
 
-        if(player.isDead()){
+        if(PLAYER.isDead()){
             try {
-                tankSpawn.stop();
+                TANK_SPAWN.stop();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -83,26 +82,26 @@ public class GameScreen extends BaseScreen{
 
         main.batch.begin();
 
-        scrollingBackground.render(main.batch);
+        SCROLLING_BACKGROUND.render(main.batch);
 
-        tankSpawn.render(main.batch);
-        lurkerSpawn.render(main.batch);
-        rangedSpawn.render(main.batch);
-        player.render(main.batch);
+        TANK_SPAWN.render(main.batch);
+        LURKER_SPAWN.render(main.batch);
+        RANGED_SPAWN.render(main.batch);
+        PLAYER.render(main.batch);
 
-        scoreCounter.render(main.batch);
+        SCORE_COUNTER.render(main.batch);
 
         main.batch.end();
     }
 
     public void dispose() {
         super.dispose();
-        tankSpawn.dispose();
-        player.dispose();
-        scoreCounter.dispose();
+        TANK_SPAWN.dispose();
+        PLAYER.dispose();
+        SCORE_COUNTER.dispose();
         try {
-            musicPlayer.stop();
-            scrollingBackground.stop();
+            MUSIC_PLAYER.stop();
+            SCROLLING_BACKGROUND.stop();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
