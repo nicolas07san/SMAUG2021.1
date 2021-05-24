@@ -52,8 +52,7 @@ public class ScrollingBackground implements Runnable {
         TEXTURE.dispose();
     }
 
-    //Threads
-
+    //Thread logic
     public void start(){
         if(running){
             return;

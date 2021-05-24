@@ -19,8 +19,4 @@ public class ScoreCounter {
                 Gdx.graphics.getHeight() - layout.height - 10);
     }
 
-
-    public void dispose(){
-
-    }
 }
