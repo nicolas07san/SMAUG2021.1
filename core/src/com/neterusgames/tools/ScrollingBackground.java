@@ -65,9 +65,18 @@ public class ScrollingBackground implements Runnable {
 
     public void run() {
         System.out.println("Thread Background Iniciada");
+        long timeIn60FPS = 1000/60;
         while(running){
+            long before = System.currentTimeMillis();
             update(GameScreen.deltaTime);
-            //System.out.println(GameScreen.deltaTime);
+            long time = System.currentTimeMillis() - before;
+            if(time < timeIn60FPS){
+                try {
+                    Thread.sleep(timeIn60FPS - time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         System.out.println("Thread Background Finalizada");
     }
