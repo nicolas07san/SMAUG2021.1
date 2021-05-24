@@ -3,8 +3,10 @@ package com.neterusgames.tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.neterusgames.game.Main;
+import com.neterusgames.screens.GameScreen;
 
-public class ScrollingBackground {
+public class ScrollingBackground implements Runnable {
 
     private final int SPEED = 150;
 
@@ -12,6 +14,10 @@ public class ScrollingBackground {
     private float y1;
     private float y2;
     private float scale;
+
+    //Thread
+    private boolean running = false;
+    private Thread thread;
 
     public ScrollingBackground(){
         y1 = 0;
@@ -40,5 +46,35 @@ public class ScrollingBackground {
     public void updateAndRender(float deltaTime, SpriteBatch batch){
         update(deltaTime);
         render(batch);
+    }
+
+    public void dispose(){
+        TEXTURE.dispose();
+    }
+
+    //Threads
+
+    public void start(){
+        if(running){
+            return;
+        }
+        running = true;
+        thread = new Thread(this);
+        thread.start();
+    }
+
+    public void run() {
+        while(running){
+            update(GameScreen.deltaTime);
+        }
+    }
+
+    public void stop() throws InterruptedException {
+        if(!running){
+            return;
+        }
+        running = false;
+        thread.join();
+        dispose();
     }
 }

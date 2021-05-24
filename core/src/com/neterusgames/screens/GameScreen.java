@@ -39,7 +39,8 @@ public class GameScreen extends BaseScreen{
     }
 
     public void show(){
-        musicPlayer.playMusic();
+        musicPlayer.start();
+        scrollingBackground.start();
         //tankSpawn.start();
 
     }
@@ -82,7 +83,7 @@ public class GameScreen extends BaseScreen{
 
         main.batch.begin();
 
-        scrollingBackground.updateAndRender(delta, main.batch);
+        scrollingBackground.render(main.batch);
 
         tankSpawn.render(main.batch);
         lurkerSpawn.render(main.batch);
@@ -99,7 +100,12 @@ public class GameScreen extends BaseScreen{
         tankSpawn.dispose();
         player.dispose();
         scoreCounter.dispose();
-        musicPlayer.dispose();
+        try {
+            musicPlayer.stop();
+            scrollingBackground.stop();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("Game Screen Disposed");
     }
 
