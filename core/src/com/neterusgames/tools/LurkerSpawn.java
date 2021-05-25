@@ -14,8 +14,9 @@ import com.neterusgames.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public class LurkerSpawn {
+public class LurkerSpawn implements Runnable {
 
     private Random random = new Random();
 
@@ -25,13 +26,15 @@ public class LurkerSpawn {
 
     private final Player PLAYER;
 
-    private final ArrayList<EnemyLurker> LURKERS = new ArrayList<>();
-    private final ArrayList<EnemyLurker> LURKERS_TO_REMOVE = new ArrayList<>();
+    private final CopyOnWriteArrayList<EnemyLurker> LURKERS = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<EnemyLurker> LURKERS_TO_REMOVE = new CopyOnWriteArrayList<>();
 
-    private final ArrayList<DeathAnimation> DEATH_ANIM = new ArrayList<>();
-    private final ArrayList<DeathAnimation> DEATH_ANIM_TO_REMOVE = new ArrayList<>();
+    private final CopyOnWriteArrayList<DeathAnimation> DEATH_ANIM = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<DeathAnimation> DEATH_ANIM_TO_REMOVE = new CopyOnWriteArrayList<>();
 
     private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/ghostdying.ogg"));
+
+    private boolean running = false;
 
     public LurkerSpawn (float minTimer, float maxTimer, Player player){
         this.minTimer = minTimer;
@@ -56,8 +59,12 @@ public class LurkerSpawn {
         timer -= deltaTime;
         if(timer <= 0){
             timer =  random.nextFloat() * (maxTimer - minTimer) + minTimer;
-            LURKERS.add(new EnemyLurker(Gdx.graphics.getWidth(),
-                    random.nextInt(Gdx.graphics.getHeight() - 32)));
+            Gdx.app.postRunnable(new Runnable() {
+                public void run() {
+                    LURKERS.add(new EnemyLurker(Gdx.graphics.getWidth(),
+                            random.nextInt(Gdx.graphics.getHeight() - 32)));
+                }
+            });
         }
 
         for(EnemyLurker lurker : LURKERS){
@@ -71,16 +78,22 @@ public class LurkerSpawn {
             }
         }
 
-        for(EnemyLurker lurker : LURKERS){
+        for(final EnemyLurker lurker : LURKERS){
             for(Bullet bullet :  PLAYER.getBullets()){
                 if(bullet.getRectangle().overlaps(lurker.getRectangle())){
-                    lurker.decreaseHealth(bullet.getDamage());
                     bullet.setRemove(true);
+                    lurker.decreaseHealth(bullet.getDamage());
+
                     if(lurker.isDead()){
-                        DEATH_SOUND.play(0.2f,1.5f,0.0f);
-                        DEATH_ANIM.add(new DeathAnimation(lurker.getX(),lurker.getY()));
                         LURKERS_TO_REMOVE.add(lurker);
                         ScoreCounter.score += 350;
+                        DEATH_SOUND.play(0.2f,1.5f,0.0f);
+                        Gdx.app.postRunnable(new Runnable() {
+                            public void run() {
+                                DEATH_ANIM.add(new DeathAnimation(lurker.getX(),lurker.getY()));
+                            }
+                        });
+
                     }
                 }
             }
@@ -111,6 +124,45 @@ public class LurkerSpawn {
 
     public void dispose(){
         DEATH_SOUND.dispose();
+    }
+
+    //Thread
+
+    public void run() {
+        System.out.println("Thread LurkerSpawn Iniciada");
+        long timeIn60FPS = 1000/60;
+        while(running){
+            long before = System.currentTimeMillis();
+            update(GameScreen.deltaTime, GameScreen.raiseDifficult);
+            long time = System.currentTimeMillis() - before;
+            if(time < timeIn60FPS){
+                try {
+                    Thread.sleep(timeIn60FPS - time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("Thread LurkerSpawn Finalizada");
+    }
+
+    public void start(){
+        if(running){
+            return;
+        }
+
+        running = true;
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+
+    public void stop() throws InterruptedException {
+        if(!running){
+            return;
+        }
+        running = false;
+        Thread.currentThread().interrupt();
+        dispose();
     }
 
 }

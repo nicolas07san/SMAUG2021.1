@@ -59,9 +59,10 @@ public class GameScreen extends BaseScreen{
         PLAYER.update(delta);
 
         TANK_SPAWN.start();
+        LURKER_SPAWN.start();
         //TANK_SPAWN.update(delta, raiseDifficult);
         RANGED_SPAWN.update(delta, raiseDifficult);
-        LURKER_SPAWN.update(delta, raiseDifficult);
+        //LURKER_SPAWN.update(delta, raiseDifficult);
 
         raiseDifficult = false;
 
@@ -95,12 +96,12 @@ public class GameScreen extends BaseScreen{
 
     public void dispose() {
         super.dispose();
-        TANK_SPAWN.dispose();
         PLAYER.dispose();
         try {
             MUSIC_PLAYER.stop();
             SCROLLING_BACKGROUND.stop();
             TANK_SPAWN.stop();
+            LURKER_SPAWN.stop();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

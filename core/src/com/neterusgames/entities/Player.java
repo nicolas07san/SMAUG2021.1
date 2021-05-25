@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Player extends BaseEntity{
 
@@ -22,7 +23,7 @@ public class Player extends BaseEntity{
     private final Animation <TextureRegion> WALK_ANIMATION;
     private final Animation <TextureRegion> SHOOT_ANIMATION;
 
-    private final ArrayList<Bullet> BULLETS;
+    private final CopyOnWriteArrayList<Bullet> BULLETS;
     private final ArrayList<Bullet> BULLETS_TO_REMOVE;
 
     private final Sound BULLET_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/bowshoot.ogg"));;
@@ -46,7 +47,7 @@ public class Player extends BaseEntity{
                 TextureRegion.split(new Texture("entities/player_attack.png"),
                         25, 30)[0]);
 
-        BULLETS = new ArrayList<>();
+        BULLETS = new CopyOnWriteArrayList<>();
         BULLETS_TO_REMOVE = new ArrayList<>();
 
         shootTimer = 0.4f;
@@ -132,7 +133,7 @@ public class Player extends BaseEntity{
         drawHealthBar(batch,0,0,Gdx.graphics.getWidth()*getHealth(),5);
     }
 
-    public ArrayList<Bullet> getBullets(){
+    public CopyOnWriteArrayList<Bullet> getBullets(){
         return BULLETS;
     }
 

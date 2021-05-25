@@ -74,11 +74,13 @@ public class TankSpawn implements Runnable {
                 TANKS_TO_REMOVE.add(tank);
             }
         }
+
         for(final EnemyTank tank : TANKS){
             for(Bullet bullet : PLAYER.getBullets()){
                 if(bullet.getRectangle().overlaps(tank.getRectangle())){
                     bullet.setRemove(true);
                     tank.decreaseHealth(bullet.getDamage()/2);
+
                     if(tank.isDead()){
                         TANKS_TO_REMOVE.add(tank);
                         ScoreCounter.score += 500;
@@ -125,7 +127,7 @@ public class TankSpawn implements Runnable {
     //Thread
 
     public void run() {
-        System.out.println("Thread Background Iniciada");
+        System.out.println("Thread TankSpawn Iniciada");
         long timeIn60FPS = 1000/60;
         while(running){
             long before = System.currentTimeMillis();
@@ -139,7 +141,7 @@ public class TankSpawn implements Runnable {
                 }
             }
         }
-        System.out.println("Thread Background Finalizada");
+        System.out.println("Thread TankSpawn Finalizada");
     }
 
     public void start(){
@@ -157,5 +159,6 @@ public class TankSpawn implements Runnable {
         }
         running = false;
         Thread.currentThread().interrupt();
+        dispose();
     }
 }
