@@ -43,8 +43,6 @@ public class GameScreen extends BaseScreen{
     public void render(float delta) {
         deltaTime = delta;
 
-        System.out.println("DELTA : "+delta);
-
         SCROLLING_BACKGROUND.start();
 
         if(ScoreCounter.score >= scoreMeter){
@@ -98,7 +96,6 @@ public class GameScreen extends BaseScreen{
         super.dispose();
         TANK_SPAWN.dispose();
         PLAYER.dispose();
-        SCORE_COUNTER.dispose();
         try {
             MUSIC_PLAYER.stop();
             SCROLLING_BACKGROUND.stop();
