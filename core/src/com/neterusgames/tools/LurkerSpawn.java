@@ -27,10 +27,10 @@ public class LurkerSpawn implements Runnable {
     private final Player PLAYER;
 
     private final CopyOnWriteArrayList<EnemyLurker> LURKERS = new CopyOnWriteArrayList<>();
-    private final CopyOnWriteArrayList<EnemyLurker> LURKERS_TO_REMOVE = new CopyOnWriteArrayList<>();
+    private final ArrayList<EnemyLurker> LURKERS_TO_REMOVE = new ArrayList<>();
 
     private final CopyOnWriteArrayList<DeathAnimation> DEATH_ANIM = new CopyOnWriteArrayList<>();
-    private final CopyOnWriteArrayList<DeathAnimation> DEATH_ANIM_TO_REMOVE = new CopyOnWriteArrayList<>();
+    private final ArrayList<DeathAnimation> DEATH_ANIM_TO_REMOVE = new ArrayList<>();
 
     private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/ghostdying.ogg"));
 
