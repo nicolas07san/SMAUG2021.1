@@ -3,14 +3,13 @@ package com.neterusgames.tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.neterusgames.game.Main;
 import com.neterusgames.screens.GameScreen;
 
 public class ScrollingBackground implements Runnable {
 
     private final int SPEED = 150;
 
-    private static final Texture TEXTURE = new Texture("background.png");
+    private final Texture TEXTURE = new Texture("background.png");
     private float y1;
     private float y2;
     private float scale;

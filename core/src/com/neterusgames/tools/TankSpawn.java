@@ -12,6 +12,7 @@ import com.neterusgames.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TankSpawn implements Runnable {
 
@@ -23,12 +24,10 @@ public class TankSpawn implements Runnable {
 
     private final Player PLAYER;
 
-    private SpriteBatch batch;
-
-    private final ArrayList<EnemyTank> TANKS = new ArrayList<>();
+    private final CopyOnWriteArrayList<EnemyTank> TANKS = new CopyOnWriteArrayList<>();
     private final ArrayList<EnemyTank> TANKS_TO_REMOVE = new ArrayList<>();
 
-    private final ArrayList<DeathAnimation> DEATH_ANIM = new ArrayList<>();
+    private final CopyOnWriteArrayList<DeathAnimation> DEATH_ANIM = new CopyOnWriteArrayList< >();
     private final ArrayList<DeathAnimation> DEATH_ANIM_TO_REMOVE = new ArrayList<>();
 
     private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/tankdie.ogg"));
@@ -36,16 +35,15 @@ public class TankSpawn implements Runnable {
     private Thread thread;
     private boolean running;
 
-    public TankSpawn(float minTimer, float maxTimer, Player player, SpriteBatch batch){
+    public TankSpawn(float minTimer, float maxTimer, Player player){
         this.minTimer = minTimer;
         this.maxTimer = maxTimer;
         this.PLAYER = player;
-        this.batch =  batch;
 
         timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
     }
 
-    public synchronized void update(float deltaTime, boolean raiseDifficult){
+    public void update(float deltaTime, boolean raiseDifficult){
         if(raiseDifficult && minTimer > 0.5f){
             maxTimer -= 0.1f;
             minTimer -= 0.1f;
@@ -58,8 +56,12 @@ public class TankSpawn implements Runnable {
         timer -= deltaTime;
         if(timer <= 0){
             timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
-            TANKS.add(new EnemyTank(random.nextInt(Gdx.graphics.getWidth() - 32),
-                    Gdx.graphics.getHeight()));
+            Gdx.app.postRunnable(new Runnable() {
+                public void run() {
+                    TANKS.add(new EnemyTank(random.nextInt(Gdx.graphics.getWidth() - 32),
+                            Gdx.graphics.getHeight()));
+                }
+            });
         }
 
         for(EnemyTank tank : TANKS){
@@ -72,7 +74,7 @@ public class TankSpawn implements Runnable {
                 TANKS_TO_REMOVE.add(tank);
             }
         }
-        for(EnemyTank tank : TANKS){
+        for(final EnemyTank tank : TANKS){
             for(Bullet bullet : PLAYER.getBullets()){
                 if(bullet.getRectangle().overlaps(tank.getRectangle())){
                     bullet.setRemove(true);
@@ -81,7 +83,12 @@ public class TankSpawn implements Runnable {
                         TANKS_TO_REMOVE.add(tank);
                         ScoreCounter.score += 500;
                         DEATH_SOUND.play(0.2f,1.0f,0.0f);
-                        DEATH_ANIM.add(new DeathAnimation(tank.getX(),tank.getY()));
+                        Gdx.app.postRunnable(new Runnable() {
+                            public void run() {
+                                DEATH_ANIM.add(new DeathAnimation(tank.getX(),tank.getY()));
+                            }
+                        });
+
                     }
                 }
             }
@@ -101,7 +108,7 @@ public class TankSpawn implements Runnable {
         DEATH_ANIM_TO_REMOVE.clear();
     }
 
-    public synchronized void render(SpriteBatch batch){
+    public void render(SpriteBatch batch){
         for(EnemyTank tank : TANKS){
             tank.render(batch);
         }
@@ -110,7 +117,7 @@ public class TankSpawn implements Runnable {
         }
     }
 
-    public synchronized void dispose() {
+    public void dispose() {
         //stop();
         DEATH_SOUND.dispose();
     }
@@ -118,27 +125,24 @@ public class TankSpawn implements Runnable {
     //Thread
 
     public void run() {
-        System.out.println("Thread Iniciada");
-        Gdx.app.postRunnable(new Runnable() {
-
-            public void run() {
-                while(running) {
-                    System.out.println("Rodando");
-                    update(GameScreen.deltaTime, GameScreen.raiseDifficult);
-                    render(batch);
+        System.out.println("Thread Background Iniciada");
+        long timeIn60FPS = 1000/60;
+        while(running){
+            long before = System.currentTimeMillis();
+            update(GameScreen.deltaTime, GameScreen.raiseDifficult);
+            long time = System.currentTimeMillis() - before;
+            if(time < timeIn60FPS){
+                try {
+                    Thread.sleep(timeIn60FPS - time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
-        });
-
-        try {
-            stop();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
-        System.out.println("Thread Parada");
+        System.out.println("Thread Background Finalizada");
     }
 
-    public synchronized void start(){
+    public void start(){
         if(running){
             return;
         }
@@ -147,11 +151,11 @@ public class TankSpawn implements Runnable {
         thread.start();
     }
 
-    public synchronized void stop() throws InterruptedException {
+    public void stop() throws InterruptedException {
         if(!running){
             return;
         }
         running = false;
-        thread.join();
+        Thread.currentThread().interrupt();
     }
 }

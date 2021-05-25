@@ -28,7 +28,7 @@ public class GameScreen extends BaseScreen{
 
         super(main);
         PLAYER = new Player(Gdx.graphics.getWidth()/2f - 16, 15 );
-        TANK_SPAWN = new TankSpawn(2f,2.5f, PLAYER, main.batch);
+        TANK_SPAWN = new TankSpawn(2f,2.5f, PLAYER);
         RANGED_SPAWN = new RangedSpawn(1.5f, 2f, PLAYER);
         LURKER_SPAWN = new LurkerSpawn(1f,1.5f, PLAYER);
         SCORE_COUNTER = new ScoreCounter();
@@ -37,7 +37,7 @@ public class GameScreen extends BaseScreen{
 
     public void show(){
         MUSIC_PLAYER.start();
-        //tankSpawn.start();
+
     }
 
     public void render(float delta) {
@@ -58,7 +58,8 @@ public class GameScreen extends BaseScreen{
         // Update entities
         PLAYER.update(delta);
 
-        TANK_SPAWN.update(delta, raiseDifficult);
+        TANK_SPAWN.start();
+        //TANK_SPAWN.update(delta, raiseDifficult);
         RANGED_SPAWN.update(delta, raiseDifficult);
         LURKER_SPAWN.update(delta, raiseDifficult);
 
@@ -99,6 +100,7 @@ public class GameScreen extends BaseScreen{
         try {
             MUSIC_PLAYER.stop();
             SCROLLING_BACKGROUND.stop();
+            TANK_SPAWN.stop();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
