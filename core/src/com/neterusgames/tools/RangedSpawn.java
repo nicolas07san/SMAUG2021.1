@@ -11,8 +11,9 @@ import com.neterusgames.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public class RangedSpawn {
+public class RangedSpawn implements Runnable {
 
     private Random random = new Random();
 
@@ -21,13 +22,15 @@ public class RangedSpawn {
     private float maxTimer;
 
     private final Player PLAYER;
-    private ArrayList<EnemyRanged> RANGERS = new ArrayList<>();
+    private CopyOnWriteArrayList<EnemyRanged> RANGERS = new CopyOnWriteArrayList<>();
     private ArrayList<EnemyRanged> RANGERS_TO_REMOVE = new ArrayList<>();
 
-    private final ArrayList<DeathAnimation> DEATH_ANIM = new ArrayList<>();
+    private final CopyOnWriteArrayList<DeathAnimation> DEATH_ANIM = new CopyOnWriteArrayList<>();
     private final ArrayList<DeathAnimation> DEATH_ANIM_TO_REMOVE = new ArrayList<>();
 
     private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/slimedeath.ogg"));
+
+    private boolean running = false;
 
     public RangedSpawn(float minTimer, float maxTimer, Player player){
         this.minTimer = minTimer;
@@ -50,8 +53,13 @@ public class RangedSpawn {
         timer -= deltaTime;
         if(timer <= 0){
             timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
-            RANGERS.add(new EnemyRanged(random.nextInt(Gdx.graphics.getWidth() - 32),
-                    Gdx.graphics.getHeight()));
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    RANGERS.add(new EnemyRanged(random.nextInt(Gdx.graphics.getWidth() - 32),
+                            Gdx.graphics.getHeight()));
+                }
+            });
         }
 
         for(EnemyRanged ranged : RANGERS){
@@ -65,17 +73,22 @@ public class RangedSpawn {
             }
         }
 
-        for(EnemyRanged ranged : RANGERS){
+        for(final EnemyRanged ranged : RANGERS){
             for(Bullet bullet : PLAYER.getBullets()){
                 if(bullet.getRectangle().overlaps(ranged.getRectangle())){
-
-                    ranged.decreaseHealth(bullet.getDamage()*1.5f);
                     bullet.setRemove(true);
+                    ranged.decreaseHealth(bullet.getDamage()*1.5f);
+
                     if(ranged.isDead()){
-                        DEATH_SOUND.play(0.8f,1.0f,0.0f);
-                        DEATH_ANIM.add(new DeathAnimation(ranged.getX(),ranged.getY()));
                         RANGERS_TO_REMOVE.add(ranged);
                         ScoreCounter.score += 200;
+                        DEATH_SOUND.play(0.8f,1.0f,0.0f);
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                DEATH_ANIM.add(new DeathAnimation(ranged.getX(),ranged.getY()));
+                            }
+                        });
                     }
                 }
             }
@@ -115,6 +128,42 @@ public class RangedSpawn {
         DEATH_SOUND.dispose();
     }
 
+    //Thread logic
 
+    public void run() {
+        System.out.println("Thread RangedSpawn Iniciada");
+        long timeIn60FPS = 1000/60;
+        while(running){
+            long before = System.currentTimeMillis();
+            update(GameScreen.deltaTime, GameScreen.raiseDifficult);
+            long time = System.currentTimeMillis() - before;
+            if(time < timeIn60FPS){
+                try {
+                    Thread.sleep(timeIn60FPS - time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("Thread RangedSpawn Finalizada");
+    }
+
+    public void start(){
+        if(running){
+            return;
+        }
+        running = true;
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+
+    public void stop() {
+        if(!running){
+            return;
+        }
+        running = false;
+        Thread.currentThread().interrupt();
+        dispose();
+    }
 
 }

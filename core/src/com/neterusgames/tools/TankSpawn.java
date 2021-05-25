@@ -120,11 +120,10 @@ public class TankSpawn implements Runnable {
     }
 
     public void dispose() {
-        //stop();
         DEATH_SOUND.dispose();
     }
 
-    //Thread
+    //Thread logic
 
     public void run() {
         System.out.println("Thread TankSpawn Iniciada");

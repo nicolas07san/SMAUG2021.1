@@ -60,8 +60,9 @@ public class GameScreen extends BaseScreen{
 
         TANK_SPAWN.start();
         LURKER_SPAWN.start();
+        RANGED_SPAWN.start();
         //TANK_SPAWN.update(delta, raiseDifficult);
-        RANGED_SPAWN.update(delta, raiseDifficult);
+        //RANGED_SPAWN.update(delta, raiseDifficult);
         //LURKER_SPAWN.update(delta, raiseDifficult);
 
         raiseDifficult = false;
@@ -102,6 +103,7 @@ public class GameScreen extends BaseScreen{
             SCROLLING_BACKGROUND.stop();
             TANK_SPAWN.stop();
             LURKER_SPAWN.stop();
+            RANGED_SPAWN.stop();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -126,7 +126,7 @@ public class LurkerSpawn implements Runnable {
         DEATH_SOUND.dispose();
     }
 
-    //Thread
+    //Thread logic
 
     public void run() {
         System.out.println("Thread LurkerSpawn Iniciada");
