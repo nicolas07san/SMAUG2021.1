@@ -83,9 +83,13 @@ public class EnemyRanged extends BaseEntity {
         if(timer >= SHOOT_TIMER){
             BULLET_SOUND.play(0.2f,1.0f,0.0f);
             timer = 0;
-            BULLETS.add(new Bullet(getCenterX(),getCenterY(),
-                    "entities/enemy-bullet.png",-1f, 0.3f));
+            Gdx.app.postRunnable(new Runnable() {
+                public void run() {
+                    BULLETS.add(new Bullet(getCenterX(),getCenterY(),
+                            "entities/enemy-bullet.png",-1f, 0.3f));
 
+                }
+            });
         }
     }
 
