@@ -43,8 +43,6 @@ public class GameScreen extends BaseScreen{
     public void render(float delta) {
         deltaTime = delta;
 
-        SCROLLING_BACKGROUND.start();
-
         if(ScoreCounter.score >= scoreMeter){
             scoreMeter += scoreMeter;
             raiseDifficult = true;
@@ -56,14 +54,11 @@ public class GameScreen extends BaseScreen{
         }
 
         // Update entities
-        PLAYER.update(delta);
-
+        PLAYER.start();
         TANK_SPAWN.start();
         LURKER_SPAWN.start();
         RANGED_SPAWN.start();
-        //TANK_SPAWN.update(delta, raiseDifficult);
-        //RANGED_SPAWN.update(delta, raiseDifficult);
-        //LURKER_SPAWN.update(delta, raiseDifficult);
+        SCROLLING_BACKGROUND.start();
 
         raiseDifficult = false;
 
@@ -97,13 +92,13 @@ public class GameScreen extends BaseScreen{
 
     public void dispose() {
         super.dispose();
-        PLAYER.dispose();
         try {
             MUSIC_PLAYER.stop();
             SCROLLING_BACKGROUND.stop();
             TANK_SPAWN.stop();
             LURKER_SPAWN.stop();
             RANGED_SPAWN.stop();
+            PLAYER.stop();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

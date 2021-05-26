@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.neterusgames.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Player extends BaseEntity{
+public class Player extends BaseEntity implements Runnable{
 
     private float timer;
     private float shootTimer;
@@ -26,7 +27,9 @@ public class Player extends BaseEntity{
     private final CopyOnWriteArrayList<Bullet> BULLETS;
     private final ArrayList<Bullet> BULLETS_TO_REMOVE;
 
-    private final Sound BULLET_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/bowshoot.ogg"));;
+    private final Sound BULLET_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/bowshoot.ogg"));
+
+    private boolean running = false;
 
     public Player(float x, float y){
         super(x, y);
@@ -59,9 +62,14 @@ public class Player extends BaseEntity{
         if(timer >= shootTimer){
             timer = 0;
             BULLET_SOUND.play(0.8f,1f,0.0f);
-            int offset = 4;
-            BULLETS.add(new Bullet(getX() + getWidth() - offset ,getY() + getHeight()/2f,
-                    "entities/player-bullet.png",1f,0.85f));
+            final int offset = 4;
+            Gdx.app.postRunnable(new Runnable() {
+                public void run() {
+                    BULLETS.add(new Bullet(getX() + getWidth() - offset ,getY() + getHeight()/2f,
+                            "entities/player-bullet.png",1f,0.85f));
+                }
+            });
+
         }
     }
 
@@ -152,5 +160,46 @@ public class Player extends BaseEntity{
             }
         }
     }
+
+    //Thread Logic
+
+    public void run() {
+        System.out.println("Thread Player Iniciada");
+        long timeIn60FPS = 1000/60;
+        while(running){
+            long before = System.currentTimeMillis();
+            update(GameScreen.deltaTime);
+            long time = System.currentTimeMillis() - before;
+            if(time < timeIn60FPS){
+                try {
+                    Thread.sleep(timeIn60FPS - time);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("Thread Player Finalizada");
+    }
+
+    public void start(){
+        if(running){
+            return;
+        }
+
+        running = true;
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+
+    public void stop() {
+        if(!running){
+            return;
+        }
+        running = false;
+        Thread.currentThread().interrupt();
+        dispose();
+    }
+
+
 
 }
