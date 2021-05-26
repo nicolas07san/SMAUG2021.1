@@ -87,7 +87,6 @@ public class EnemyRanged extends BaseEntity {
                 public void run() {
                     BULLETS.add(new Bullet(getCenterX(),getCenterY(),
                             "entities/enemy-bullet.png",-1f, 0.3f));
-
                 }
             });
         }
