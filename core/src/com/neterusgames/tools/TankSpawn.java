@@ -32,7 +32,6 @@ public class TankSpawn implements Runnable {
 
     private final Sound DEATH_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/tankdie.ogg"));
 
-    private Thread thread;
     private boolean running;
 
     public TankSpawn(float minTimer, float maxTimer, Player player){
@@ -43,15 +42,7 @@ public class TankSpawn implements Runnable {
         timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
     }
 
-    public void update(float deltaTime, boolean raiseDifficult){
-        if(raiseDifficult && minTimer > 0.5f){
-            maxTimer -= 0.1f;
-            minTimer -= 0.1f;
-            if(minTimer <= 0.5f){
-                minTimer = 0.5f;
-                maxTimer = 1f;
-            }
-        }
+    public void update(float deltaTime){
 
         timer -= deltaTime;
         if(timer <= 0){
@@ -119,6 +110,15 @@ public class TankSpawn implements Runnable {
         }
     }
 
+    public void raiseDifficult(){
+        maxTimer -= 0.1f;
+        minTimer -= 0.1f;
+        if(minTimer <= 0.4f) {
+            minTimer = 0.4f;
+            maxTimer = 0.8f;
+        }
+    }
+
     public void dispose() {
         DEATH_SOUND.dispose();
     }
@@ -130,7 +130,7 @@ public class TankSpawn implements Runnable {
         long timeIn60FPS = 1000/60;
         while(running){
             long before = System.currentTimeMillis();
-            update(GameScreen.deltaTime, GameScreen.raiseDifficult);
+            update(GameScreen.deltaTime);
             long time = System.currentTimeMillis() - before;
             if(time < timeIn60FPS){
                 try {
@@ -148,7 +148,7 @@ public class TankSpawn implements Runnable {
             return;
         }
         running = true;
-        thread = new Thread(this);
+        Thread thread = new Thread(this);
         thread.start();
     }
 

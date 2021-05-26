@@ -40,15 +40,7 @@ public class RangedSpawn implements Runnable {
         timer = random.nextFloat() * (maxTimer - minTimer) + minTimer;
     }
 
-    public void update(float deltaTime, boolean raiseDifficult){
-        if(raiseDifficult &&  minTimer > 0.4f){
-            maxTimer -= 0.1f;
-            minTimer -= 0.1f;
-            if(minTimer <= 0.4f){
-                minTimer = 0.4f;
-                maxTimer = 0.8f;
-            }
-        }
+    public void update(float deltaTime){
 
         timer -= deltaTime;
         if(timer <= 0){
@@ -124,6 +116,15 @@ public class RangedSpawn implements Runnable {
         }
     }
 
+    public void raiseDifficult(){
+        maxTimer -= 0.1f;
+        minTimer -= 0.1f;
+        if(minTimer <= 0.4f){
+            minTimer = 0.4f;
+            maxTimer = 0.8f;
+        }
+    }
+
     public void dispose(){
         DEATH_SOUND.dispose();
     }
@@ -135,7 +136,7 @@ public class RangedSpawn implements Runnable {
         long timeIn60FPS = 1000/60;
         while(running){
             long before = System.currentTimeMillis();
-            update(GameScreen.deltaTime, GameScreen.raiseDifficult);
+            update(GameScreen.deltaTime);
             long time = System.currentTimeMillis() - before;
             if(time < timeIn60FPS){
                 try {

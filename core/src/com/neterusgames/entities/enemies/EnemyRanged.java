@@ -10,6 +10,7 @@ import com.neterusgames.entities.BaseEntity;
 import com.neterusgames.entities.Bullet;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EnemyRanged extends BaseEntity {
 
@@ -21,7 +22,7 @@ public class EnemyRanged extends BaseEntity {
     private float stateTime;
     private final Animation<TextureRegion> anim;
 
-    private final ArrayList<Bullet> BULLETS;
+    private final CopyOnWriteArrayList<Bullet> BULLETS;
     private final ArrayList<Bullet> BULLETS_TO_REMOVE;
 
     private final Sound BULLET_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/slime_shoot.ogg"));
@@ -40,7 +41,7 @@ public class EnemyRanged extends BaseEntity {
 
         setSpeed(200);
 
-        BULLETS = new ArrayList<>();
+        BULLETS = new CopyOnWriteArrayList<>();
         BULLETS_TO_REMOVE = new ArrayList<>();
 
     }
@@ -96,7 +97,7 @@ public class EnemyRanged extends BaseEntity {
         return remove;
     }
 
-    public ArrayList<Bullet> getBullets(){
+    public CopyOnWriteArrayList<Bullet> getBullets(){
         return BULLETS;
     }
 

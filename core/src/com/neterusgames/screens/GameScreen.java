@@ -44,8 +44,10 @@ public class GameScreen extends BaseScreen{
         deltaTime = delta;
 
         if(ScoreCounter.score >= scoreMeter){
+            TANK_SPAWN.raiseDifficult();
+            LURKER_SPAWN.raiseDifficult();
+            RANGED_SPAWN.raiseDifficult();
             scoreMeter += scoreMeter;
-            raiseDifficult = true;
         }
 
         if(ScoreCounter.score >= playerUpgradeMeter){
@@ -60,7 +62,6 @@ public class GameScreen extends BaseScreen{
         RANGED_SPAWN.start();
         SCROLLING_BACKGROUND.start();
 
-        raiseDifficult = false;
 
         if(PLAYER.isDead()){
             try {
