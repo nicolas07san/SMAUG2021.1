@@ -55,14 +55,14 @@ public class GameScreen extends BaseScreen{
             playerUpgradeMeter += playerUpgradeMeter;
         }
 
-        // Update entities
+        // Start Threads
         PLAYER.start();
         TANK_SPAWN.start();
         LURKER_SPAWN.start();
         RANGED_SPAWN.start();
         SCROLLING_BACKGROUND.start();
 
-
+        //Check if player is Dead
         if(PLAYER.isDead()){
             try {
                 TANK_SPAWN.stop();
