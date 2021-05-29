@@ -9,7 +9,6 @@ import com.neterusgames.tools.*;
 public class GameScreen extends BaseScreen{
 
     public static float deltaTime;
-    public static boolean raiseDifficult = false;
 
     private final Player PLAYER;
 
