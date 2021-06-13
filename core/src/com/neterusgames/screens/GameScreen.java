@@ -36,7 +36,6 @@ public class GameScreen extends BaseScreen{
 
     public void show(){
         MUSIC_PLAYER.start();
-
     }
 
     public void render(float delta) {

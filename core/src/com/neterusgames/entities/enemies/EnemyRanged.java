@@ -60,6 +60,7 @@ public class EnemyRanged extends BaseEntity {
                 BULLETS_TO_REMOVE.add(bullet);
             }
         }
+
         BULLETS.removeAll(BULLETS_TO_REMOVE);
         BULLETS_TO_REMOVE.clear();
 
