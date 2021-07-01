@@ -30,7 +30,7 @@ public class ScrollingBackground implements Runnable {
         y2 -= SPEED*deltaTime;
 
         if(y1 + TEXTURE.getHeight() * scale <= 0){
-            y1 = y2+ TEXTURE.getHeight()*scale;
+            y1 = y2 + TEXTURE.getHeight()*scale;
         }
         if(y2 + TEXTURE.getHeight() * scale <= 0){
             y2 = y1+ TEXTURE.getHeight()*scale;
